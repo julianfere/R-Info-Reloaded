@@ -14,7 +14,7 @@ describe("Robot", () => {
   };
 
   it("should move", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
     robot.move();
 
     const position = robot.getPosition();
@@ -23,7 +23,7 @@ describe("Robot", () => {
   });
 
   it("should turn right", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
     robot.turnRight();
 
     const direction = robot.getDirection();
@@ -32,7 +32,7 @@ describe("Robot", () => {
   });
 
   it("should check flower", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
 
     mockCity.getFlowers.mockReturnValueOnce([
       { position: { avenue: 0, street: 0 } },
@@ -42,7 +42,7 @@ describe("Robot", () => {
   });
 
   it("should check paper", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
 
     mockCity.getPapers.mockReturnValueOnce([
       { position: { avenue: 0, street: 0 } },
@@ -52,7 +52,7 @@ describe("Robot", () => {
   });
 
   it("should take flower", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
 
     mockCity.getFlowers.mockReturnValueOnce([
       { position: { avenue: 0, street: 0 } },
@@ -64,7 +64,7 @@ describe("Robot", () => {
   });
 
   it("should take paper", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
 
     mockCity.getPapers.mockReturnValueOnce([
       { position: { avenue: 0, street: 0 } },
@@ -76,7 +76,7 @@ describe("Robot", () => {
   });
 
   it("should deposit flower", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
 
     mockCity.getFlowers.mockReturnValueOnce([
       { position: { avenue: 0, street: 0 } },
@@ -89,7 +89,7 @@ describe("Robot", () => {
   });
 
   it("should deposit paper", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
 
     mockCity.getPapers.mockReturnValueOnce([
       { position: { avenue: 0, street: 0 } },
@@ -102,7 +102,7 @@ describe("Robot", () => {
   });
 
   it("should throw NoFlowerInCornerError", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
 
     mockCity.getFlowers.mockReturnValueOnce([]);
 
@@ -112,7 +112,7 @@ describe("Robot", () => {
   });
 
   it("should throw NoPaperInCornerError", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
 
     mockCity.getPapers.mockReturnValueOnce([]);
 
@@ -122,7 +122,7 @@ describe("Robot", () => {
   });
 
   it("should throw NoFlowerInBackpackError", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
 
     expect(() => robot.depositFlower()).toThrowError(
       "There is no flower in the backpack"
@@ -130,7 +130,7 @@ describe("Robot", () => {
   });
 
   it("should throw NoPaperInBackpackError", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
 
     expect(() => robot.depositPaper()).toThrowError(
       "There is no paper in the backpack"
@@ -138,7 +138,7 @@ describe("Robot", () => {
   });
 
   it("should throw FellOffTheCityError", () => {
-    const robot = new Robot(mockCity);
+    const robot = new Robot("robot", mockCity);
 
     mockCity.outOfBounds.mockReturnValueOnce(true);
 

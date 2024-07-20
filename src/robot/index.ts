@@ -9,12 +9,14 @@ import {
 } from "./errors";
 
 class Robot implements IRobot {
+  public id: string;
   private backpack: Backpack;
   private city: ICity;
   private position: Position;
   private direction: Directions;
 
-  constructor(city: ICity) {
+  constructor(id: string, city: ICity) {
+    this.id = id;
     this.direction = "N";
     this.city = city;
     this.backpack = { flower: 0, paper: 0 };
