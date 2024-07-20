@@ -1,0 +1,20 @@
+{
+  "name": "r-info-reloaded",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "start": "node dist/index.js",
+    "dev": "tsc -w & nodemon -q -w dist dist/index.js"
+  },
+  "author": "Julian Feregotti, Lucas Rodriguez Davila, Leonardo Loza Bonora",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "jison": "^0.4.18"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2"
+  }
+}
