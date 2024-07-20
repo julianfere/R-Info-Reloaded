@@ -307,7 +307,7 @@ export class RinfoParser extends JisonParser implements JisonParserApi {
 import { JisonLexer, JisonLexerApi } from "@ts-jison/lexer";
 
 export class RinfoLexer extends JisonLexer implements JisonLexerApi {
-  options: any = { moduleName: "TsCalc" };
+  options: any = { moduleName: "Rinfo" };
   constructor(yy = {}) {
     super(yy);
   }
