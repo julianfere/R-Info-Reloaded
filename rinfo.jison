@@ -12,7 +12,7 @@ AreaC\b               return 'AREAC';
 AreaP\b               return 'AREAP';
 AreaPC\b              return 'AREAPC';
 [0-9]+                return 'NUMBER';
-[a-zA-Z][a-zA-Z0-9]   return 'ID';
+[a-zA-Z_][a-zA-Z0-9_]* return 'ID';
 ':='                  return 'ASSIGN';
 [()]                  return yytext;
 <<EOF>>               return 'EOF';
@@ -75,7 +75,7 @@ acciones
     ;
 
 accion
-    : 'repetir' 'NUMBER' 'veces' acciones 'finrepetir'
+    : 'repetir' 'NUMBER' acciones 'finrepetir'
     | 'mover'
     | 'derecha'
     | 'si' '(' condicion ')' acciones 'finsi'
