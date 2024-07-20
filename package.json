@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc -b",
     "start": "node dist/index.js",
-    "dev": "tsc -w & nodemon -q -w dist dist/src/index.js",
+    "dev": "tsc -w & nodemon -q -w src/program.rinfo -w dist dist/src/index.js",
     "test": "vitest",
     "compile:jison": "ts-jison -t typescript -n Rinfo -n Rinfo -o src/ParserAndLexer/index.ts rinfo.jison"
   },
@@ -14,8 +14,12 @@
   "license": "GPL-3.0-only",
   "devDependencies": {
     "@ts-jison/parser-generator": "^0.4.1-alpha.2",
+    "@types/node": "^20.14.11",
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "vitest": "^2.0.3"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security"
   }
 }

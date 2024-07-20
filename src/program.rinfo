@@ -1,0 +1,38 @@
+programa RecolectorDeFlores
+areas
+  jardin : AreaC(1,1,10,10)
+robots
+  robot recolector
+  variables
+    flores: numero
+  comenzar
+    flores := 0
+    repetir 10
+      repetir 9
+        si (HayFlorEnLaEsquina())
+          tomarFlor()
+          flores := flores + 1
+          mover()
+          derecha()
+        finsi
+      finrepetir
+      si (HayFlorEnLaEsquina())
+        tomarFlor()
+        flores := flores + 1
+      finsi
+    finrepetir
+    repetir 10
+      repetir 10
+        mover()
+      finrepetir
+      derecha()
+    finrepetir
+  fin 
+
+variables
+  bot: recolector
+
+comenzar
+  AsignarArea(bot, jardin)
+  Iniciar(bot, 1, 1) 
+finprograma
