@@ -130,6 +130,18 @@ class Robot implements IRobot {
   getDirection() {
     return this.direction;
   }
+
+  getAvenuePosition() {
+    return this.position.avenue;
+  }
+
+  getStreetPosition() {
+    return this.position.street;
+  }
+
+  setPosition(aPosition: Position) {
+    this.position = aPosition;
+  }
 }
 
 export default Robot;
