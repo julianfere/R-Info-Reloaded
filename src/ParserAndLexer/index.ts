@@ -5,23 +5,21 @@ import { JisonParser, JisonParserApi, StateType, SymbolsType, TerminalsType, Pro
  */
 
 
-/* Optional JavaScript section to include parser actions, etc. */
-
 export class RinfoParser extends JisonParser implements JisonParserApi {
     $?: any;
-    symbols_: SymbolsType = {"error":2,"programa":3,"PROGRAMA":4,"ID":5,"secciones":6,"seccion":7,"AREAS":8,"area_defs":9,"PROCESOS":10,"proceso_defs":11,"ROBOTS":12,"robot_defs":13,"VARIABLES":14,"var_defs":15,"COMENZAR":16,"acciones":17,"FINPROGRAMA":18,"EOF":19,"area_def":20,"COLON":21,"area_tipo":22,"LPAREN":23,"NUMBER":24,"COMMA":25,"RPAREN":26,"AREAC":27,"AREAP":28,"AREAPC":29,"robot_def":30,"ROBOT":31,"var_section":32,"FIN":33,"var_def":34,"tipo_var":35,"TIPO_VAR_NUMERO":36,"BOOLEAN":37,"accion":38,"REPETIR":39,"FINREPETIR":40,"si":41,"condicion":42,"finsi":43,"Iniciar":44,"ASSIGN":45,"matematica":46,"algebra_booleana":47,"llamado_funcion":48,"==":49,"!=":50,"<":51,">":52,"+":53,"-":54,"*":55,"/":56,"&":57,"|":58,"~":59,"V":60,"F":61,"argumentos":62,"argumento":63,"tipo_parametro":64,"PARAMETRO_ENTRADA":65,"PARAMETRO_ENTRADA_SALIDA":66,"parametro":67,"parametros":68,"proceso_def":69,"PROCESO":70,"$accept":0,"$end":1};
-    terminals_: TerminalsType = {2:"error",4:"PROGRAMA",5:"ID",8:"AREAS",10:"PROCESOS",12:"ROBOTS",14:"VARIABLES",16:"COMENZAR",18:"FINPROGRAMA",19:"EOF",21:"COLON",23:"LPAREN",24:"NUMBER",25:"COMMA",26:"RPAREN",27:"AREAC",28:"AREAP",29:"AREAPC",31:"ROBOT",33:"FIN",36:"TIPO_VAR_NUMERO",37:"BOOLEAN",39:"REPETIR",40:"FINREPETIR",41:"si",43:"finsi",44:"Iniciar",45:"ASSIGN",49:"==",50:"!=",51:"<",52:">",53:"+",54:"-",55:"*",56:"/",57:"&",58:"|",59:"~",60:"V",61:"F",65:"PARAMETRO_ENTRADA",66:"PARAMETRO_ENTRADA_SALIDA",70:"PROCESO"};
-    productions_: ProductionsType = [0,[3,3],[6,1],[6,2],[7,2],[7,2],[7,2],[7,2],[7,4],[9,1],[9,2],[20,12],[22,1],[22,1],[22,1],[13,1],[13,2],[30,6],[32,2],[32,0],[15,1],[15,2],[34,3],[35,1],[35,1],[35,1],[17,1],[17,2],[38,4],[38,6],[38,8],[38,3],[38,3],[38,1],[42,3],[42,3],[42,3],[42,3],[42,1],[42,1],[42,1],[46,3],[46,3],[46,3],[46,3],[46,1],[46,1],[47,3],[47,3],[47,2],[47,1],[47,1],[47,1],[48,3],[48,4],[62,1],[62,3],[63,1],[63,1],[63,1],[63,1],[64,1],[64,1],[67,2],[68,1],[68,3],[69,7],[69,8],[11,1],[11,2]];
+    symbols_: SymbolsType = {"error":2,"programa":3,"PROGRAMA":4,"ID":5,"secciones":6,"seccion":7,"AREAS":8,"area_defs":9,"PROCESOS":10,"proceso_defs":11,"ROBOTS":12,"robot_defs":13,"VARIABLES":14,"var_defs":15,"COMENZAR":16,"acciones":17,"FINPROGRAMA":18,"EOF":19,"area_def":20,"COLON":21,"area_tipo":22,"LPAREN":23,"NUMBER":24,"COMMA":25,"RPAREN":26,"AREAC":27,"robot_def":28,"ROBOT":29,"var_section":30,"FIN":31,"var_def":32,"tipo_var":33,"TIPO_VAR_NUMERO":34,"BOOLEAN":35,"accion":36,"REPETIR":37,"FINREPETIR":38,"estructura_si":39,"MIENTRAS":40,"condicion":41,"FINMIENTRAS":42,"Iniciar":43,"ASSIGN":44,"matematica":45,"algebra_booleana":46,"llamado_funcion":47,"si":48,"finsi":49,"sino":50,"=":51,"<>":52,"<":53,"<=":54,">":55,">=":56,"+":57,"-":58,"*":59,"/":60,"&":61,"|":62,"~":63,"V":64,"F":65,"argumentos":66,"argumento":67,"tipo_parametro":68,"PARAMETRO_ENTRADA":69,"PARAMETRO_ENTRADA_SALIDA":70,"parametro":71,"parametros":72,"proceso_def":73,"PROCESO":74,"$accept":0,"$end":1};
+    terminals_: TerminalsType = {2:"error",4:"PROGRAMA",5:"ID",8:"AREAS",10:"PROCESOS",12:"ROBOTS",14:"VARIABLES",16:"COMENZAR",18:"FINPROGRAMA",19:"EOF",21:"COLON",23:"LPAREN",24:"NUMBER",25:"COMMA",26:"RPAREN",27:"AREAC",29:"ROBOT",31:"FIN",34:"TIPO_VAR_NUMERO",35:"BOOLEAN",37:"REPETIR",38:"FINREPETIR",40:"MIENTRAS",42:"FINMIENTRAS",43:"Iniciar",44:"ASSIGN",48:"si",49:"finsi",50:"sino",51:"=",52:"<>",53:"<",54:"<=",55:">",56:">=",57:"+",58:"-",59:"*",60:"/",61:"&",62:"|",63:"~",64:"V",65:"F",69:"PARAMETRO_ENTRADA",70:"PARAMETRO_ENTRADA_SALIDA",74:"PROCESO"};
+    productions_: ProductionsType = [0,[3,3],[6,1],[6,2],[7,2],[7,2],[7,2],[7,2],[7,4],[9,1],[9,2],[20,12],[22,1],[13,1],[13,2],[28,6],[30,2],[30,0],[15,1],[15,2],[32,3],[33,1],[33,1],[33,1],[17,1],[17,2],[36,4],[36,1],[36,6],[36,8],[36,3],[36,3],[36,1],[39,6],[39,8],[41,3],[41,3],[41,3],[41,3],[41,3],[41,3],[41,1],[41,1],[41,1],[45,3],[45,3],[45,3],[45,3],[45,1],[45,1],[46,3],[46,3],[46,2],[46,1],[46,1],[46,1],[47,3],[47,4],[66,1],[66,3],[67,1],[67,1],[67,1],[67,1],[68,1],[68,1],[71,2],[72,1],[72,3],[73,7],[73,8],[11,1],[11,2]];
     table: Array<StateType>;
-    defaultActions: {[key:number]: any} = {47:[2,12],48:[2,13],49:[2,14],84:[2,61],85:[2,62]};
+    defaultActions: {[key:number]: any} = {50:[2,12],86:[2,64],87:[2,65]};
 
     constructor (yy = {}, lexer = new RinfoLexer(yy)) {
       super(yy, lexer);
 
       // shorten static method to just `o` for terse STATE_TABLE
-      const $V0=[1,6],$V1=[1,7],$V2=[1,8],$V3=[1,9],$V4=[1,10],$V5=[1,8,10,12,14,16],$V6=[1,14],$V7=[1,17],$V8=[1,20],$V9=[1,23],$Va=[1,29],$Vb=[1,26],$Vc=[1,27],$Vd=[1,28],$Ve=[1,5,8,10,12,14,16],$Vf=[1,8,10,12,14,16,70],$Vg=[1,8,10,12,14,16,31],$Vh=[5,18,33,39,40,41,43,44],$Vi=[1,45],$Vj=[1,61],$Vk=[1,62],$Vl=[1,67],$Vm=[1,68],$Vn=[1,70],$Vo=[1,71],$Vp=[1,78],$Vq=[1,75],$Vr=[1,76],$Vs=[1,77],$Vt=[1,84],$Vu=[1,85],$Vv=[1,5,8,10,12,14,16,25,26],$Vw=[1,90],$Vx=[1,91],$Vy=[1,92],$Vz=[1,93],$VA=[26,49,50,51,52],$VB=[1,95],$VC=[1,96],$VD=[1,97],$VE=[1,98],$VF=[1,99],$VG=[1,100],$VH=[5,18,33,39,40,41,43,44,53,54,55,56],$VI=[2,45],$VJ=[1,102],$VK=[5,18,33,39,40,41,43,44,57,58],$VL=[5,18,26,33,39,40,41,43,44,49,50,51,52,57,58],$VM=[25,26],$VN=[1,118];
+      const $V0=[1,6],$V1=[1,7],$V2=[1,8],$V3=[1,9],$V4=[1,10],$V5=[1,8,10,12,14,16],$V6=[1,14],$V7=[1,17],$V8=[1,20],$V9=[1,23],$Va=[1,30],$Vb=[1,26],$Vc=[1,28],$Vd=[1,29],$Ve=[1,32],$Vf=[1,5,8,10,12,14,16],$Vg=[1,8,10,12,14,16,74],$Vh=[1,8,10,12,14,16,29],$Vi=[5,18,31,37,38,40,42,43,48,49,50],$Vj=[1,47],$Vk=[1,61],$Vl=[1,62],$Vm=[1,68],$Vn=[1,69],$Vo=[1,71],$Vp=[1,72],$Vq=[1,79],$Vr=[1,76],$Vs=[1,77],$Vt=[1,78],$Vu=[1,86],$Vv=[1,87],$Vw=[1,5,8,10,12,14,16,25,26],$Vx=[1,92],$Vy=[1,93],$Vz=[1,94],$VA=[1,95],$VB=[1,96],$VC=[1,97],$VD=[26,51,52,53,54,55,56],$VE=[1,99],$VF=[1,100],$VG=[1,101],$VH=[1,102],$VI=[1,103],$VJ=[1,104],$VK=[5,18,31,37,38,40,42,43,48,49,50,57,58,59,60],$VL=[2,48],$VM=[1,106],$VN=[5,18,31,37,38,40,42,43,48,49,50,61,62],$VO=[5,18,26,31,37,38,40,42,43,48,49,50,51,52,53,54,55,56,61,62],$VP=[25,26],$VQ=[1,125];
       const o = JisonParser.expandParseTable;
-      this.table = [{3:1,4:[1,2]},{1:[3]},{5:[1,3]},{6:4,7:5,8:$V0,10:$V1,12:$V2,14:$V3,16:$V4},{1:[2,1],7:11,8:$V0,10:$V1,12:$V2,14:$V3,16:$V4},o($V5,[2,2]),{5:$V6,9:12,20:13},{11:15,69:16,70:$V7},{13:18,30:19,31:$V8},{5:$V9,15:21,34:22},{5:$Va,17:24,38:25,39:$Vb,41:$Vc,44:$Vd,48:30},o($V5,[2,3]),o($V5,[2,4],{20:31,5:$V6}),o($Ve,[2,9]),{21:[1,32]},o($V5,[2,5],{69:33,70:$V7}),o($Vf,[2,68]),{5:[1,34]},o($V5,[2,6],{30:35,31:$V8}),o($Vg,[2,15]),{5:[1,36]},o($V5,[2,7],{34:37,5:$V9}),o($Ve,[2,20]),{21:[1,38]},{5:$Va,18:[1,39],38:40,39:$Vb,41:$Vc,44:$Vd,48:30},o($Vh,[2,26]),{24:[1,41]},{23:[1,42]},{23:[1,43]},{23:$Vi,45:[1,44]},o($Vh,[2,33]),o($Ve,[2,10]),{22:46,27:[1,47],28:[1,48],29:[1,49]},o($Vf,[2,69]),{23:[1,50]},o($Vg,[2,16]),{14:[1,52],16:[2,19],32:51},o($Ve,[2,21]),{5:[1,56],35:53,36:[1,54],37:[1,55]},{19:[1,57]},o($Vh,[2,27]),{5:$Va,17:58,38:25,39:$Vb,41:$Vc,44:$Vd,48:30},{5:$Vj,24:$Vk,42:59,48:60},{5:[1,63]},{5:[1,66],24:$Vl,46:64,47:65,48:69,59:$Vm,60:$Vn,61:$Vo},{5:$Vp,24:$Vq,26:[1,72],60:$Vr,61:$Vs,62:73,63:74},{23:[1,79]},{23:[2,12]},{23:[2,13]},{23:[2,14]},{26:[1,80],64:83,65:$Vt,66:$Vu,67:82,68:81},{16:[1,86]},{5:$V9,15:87,34:22},o($Vv,[2,22]),o($Vv,[2,23]),o($Vv,[2,24]),o($Vv,[2,25]),o($V5,[2,8]),{5:$Va,38:40,39:$Vb,40:[1,88],41:$Vc,44:$Vd,48:30},{26:[1,89],49:$Vw,50:$Vx,51:$Vy,52:$Vz},o($VA,[2,38]),o($VA,[2,39],{23:$Vi}),o($VA,[2,40]),{25:[1,94]},o($Vh,[2,31],{53:$VB,54:$VC,55:$VD,56:$VE}),o($Vh,[2,32],{57:$VF,58:$VG}),o($VH,$VI,{23:$Vi}),o($VH,[2,46]),{5:$VJ,47:101,48:69,59:$Vm,60:$Vn,61:$Vo},o($VK,[2,50]),o($VK,[2,51]),o($VK,[2,52]),o($VL,[2,53]),{25:[1,104],26:[1,103]},o($VM,[2,55]),o($VM,[2,57]),o($VM,[2,58]),o($VM,[2,59]),o($VM,[2,60]),{24:[1,105]},{16:[1,106]},{25:[1,108],26:[1,107]},o($VM,[2,64]),{5:$V9,34:109},{5:[2,61]},{5:[2,62]},{5:$Va,17:110,38:25,39:$Vb,41:$Vc,44:$Vd,48:30},{5:$V9,16:[2,18],34:37},o($Vh,[2,28]),{5:$Va,17:111,38:25,39:$Vb,41:$Vc,44:$Vd,48:30},{5:$Vj,24:$Vk,42:112,48:60},{5:$Vj,24:$Vk,42:113,48:60},{5:$Vj,24:$Vk,42:114,48:60},{5:$Vj,24:$Vk,42:115,48:60},{24:[1,116]},{5:$VN,24:$Vl,46:117},{5:$VN,24:$Vl,46:119},{5:$VN,24:$Vl,46:120},{5:$VN,24:$Vl,46:121},{5:$VJ,47:122,48:69,59:$Vm,60:$Vn,61:$Vo},{5:$VJ,47:123,48:69,59:$Vm,60:$Vn,61:$Vo},o($Vh,[2,49],{57:$VF,58:$VG}),{23:$Vi},o($VL,[2,54]),{5:$Vp,24:$Vq,60:$Vr,61:$Vs,63:124},{25:[1,125]},{5:$Va,17:126,38:25,39:$Vb,41:$Vc,44:$Vd,48:30},{16:[1,127]},{64:83,65:$Vt,66:$Vu,67:128},o($VM,[2,63]),{5:$Va,33:[1,129],38:40,39:$Vb,41:$Vc,44:$Vd,48:30},{5:$Va,38:40,39:$Vb,41:$Vc,43:[1,130],44:$Vd,48:30},{26:[2,34],49:$Vw,50:$Vx,51:$Vy,52:$Vz},{26:[2,35],49:$Vw,50:$Vx,51:$Vy,52:$Vz},{26:[2,36],49:$Vw,50:$Vx,51:$Vy,52:$Vz},{26:[2,37],49:$Vw,50:$Vx,51:$Vy,52:$Vz},{25:[1,131]},o($Vh,[2,41],{53:$VB,54:$VC,55:$VD,56:$VE}),o($VH,$VI),o($Vh,[2,42],{53:$VB,54:$VC,55:$VD,56:$VE}),o($Vh,[2,43],{53:$VB,54:$VC,55:$VD,56:$VE}),o($Vh,[2,44],{53:$VB,54:$VC,55:$VD,56:$VE}),o($Vh,[2,47],{57:$VF,58:$VG}),o($Vh,[2,48],{57:$VF,58:$VG}),o($VM,[2,56]),{24:[1,132]},{5:$Va,33:[1,133],38:40,39:$Vb,41:$Vc,44:$Vd,48:30},{5:$Va,17:134,38:25,39:$Vb,41:$Vc,44:$Vd,48:30},o($VM,[2,65]),o($Vg,[2,17]),o($Vh,[2,29]),{24:[1,135]},{25:[1,136]},o($Vf,[2,66]),{5:$Va,33:[1,137],38:40,39:$Vb,41:$Vc,44:$Vd,48:30},{26:[1,138]},{24:[1,139]},o($Vf,[2,67]),o($Vh,[2,30]),{25:[1,140]},{24:[1,141]},{26:[1,142]},o($Ve,[2,11])];
+      this.table = [{3:1,4:[1,2]},{1:[3]},{5:[1,3]},{6:4,7:5,8:$V0,10:$V1,12:$V2,14:$V3,16:$V4},{1:[2,1],7:11,8:$V0,10:$V1,12:$V2,14:$V3,16:$V4},o($V5,[2,2]),{5:$V6,9:12,20:13},{11:15,73:16,74:$V7},{13:18,28:19,29:$V8},{5:$V9,15:21,32:22},{5:$Va,17:24,36:25,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},o($V5,[2,3]),o($V5,[2,4],{20:33,5:$V6}),o($Vf,[2,9]),{21:[1,34]},o($V5,[2,5],{73:35,74:$V7}),o($Vg,[2,71]),{5:[1,36]},o($V5,[2,6],{28:37,29:$V8}),o($Vh,[2,13]),{5:[1,38]},o($V5,[2,7],{32:39,5:$V9}),o($Vf,[2,18]),{21:[1,40]},{5:$Va,18:[1,41],36:42,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},o($Vi,[2,24]),{24:[1,43]},o($Vi,[2,27]),{23:[1,44]},{23:[1,45]},{23:$Vj,44:[1,46]},o($Vi,[2,32]),{23:[1,48]},o($Vf,[2,10]),{22:49,27:[1,50]},o($Vg,[2,72]),{23:[1,51]},o($Vh,[2,14]),{14:[1,53],16:[2,17],30:52},o($Vf,[2,19]),{5:[1,57],33:54,34:[1,55],35:[1,56]},{19:[1,58]},o($Vi,[2,25]),{5:$Va,17:59,36:25,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},{5:$Vk,24:$Vl,41:60,47:63},{5:[1,64]},{5:[1,67],24:$Vm,45:65,46:66,47:70,63:$Vn,64:$Vo,65:$Vp},{5:$Vq,24:$Vr,26:[1,73],64:$Vs,65:$Vt,66:74,67:75},{5:$Vk,24:$Vl,41:80,47:63},{23:[1,81]},{23:[2,12]},{26:[1,82],68:85,69:$Vu,70:$Vv,71:84,72:83},{16:[1,88]},{5:$V9,15:89,32:22},o($Vw,[2,20]),o($Vw,[2,21]),o($Vw,[2,22]),o($Vw,[2,23]),o($V5,[2,8]),{5:$Va,36:42,37:$Vb,38:[1,90],39:27,40:$Vc,43:$Vd,47:31,48:$Ve},{26:[1,91],51:$Vx,52:$Vy,53:$Vz,54:$VA,55:$VB,56:$VC},o($VD,[2,41],{23:$Vj}),o($VD,[2,42]),o($VD,[2,43]),{25:[1,98]},o($Vi,[2,30],{57:$VE,58:$VF,59:$VG,60:$VH}),o($Vi,[2,31],{61:$VI,62:$VJ}),o($VK,$VL,{23:$Vj}),o($VK,[2,49]),{5:$VM,46:105,47:70,63:$Vn,64:$Vo,65:$Vp},o($VN,[2,53]),o($VN,[2,54]),o($VN,[2,55]),o($VO,[2,56]),{25:[1,108],26:[1,107]},o($VP,[2,58]),o($VP,[2,60]),o($VP,[2,61]),o($VP,[2,62]),o($VP,[2,63]),{26:[1,109],51:$Vx,52:$Vy,53:$Vz,54:$VA,55:$VB,56:$VC},{24:[1,110]},{16:[1,111]},{25:[1,113],26:[1,112]},o($VP,[2,67]),{5:$V9,32:114},{5:[2,64]},{5:[2,65]},{5:$Va,17:115,36:25,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},{5:$V9,16:[2,16],32:39},o($Vi,[2,26]),{5:$Va,17:116,36:25,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},{5:$Vk,24:$Vl,41:117,47:63},{5:$Vk,24:$Vl,41:118,47:63},{5:$Vk,24:$Vl,41:119,47:63},{5:$Vk,24:$Vl,41:120,47:63},{5:$Vk,24:$Vl,41:121,47:63},{5:$Vk,24:$Vl,41:122,47:63},{24:[1,123]},{5:$VQ,24:$Vm,45:124},{5:$VQ,24:$Vm,45:126},{5:$VQ,24:$Vm,45:127},{5:$VQ,24:$Vm,45:128},{5:$VM,46:129,47:70,63:$Vn,64:$Vo,65:$Vp},{5:$VM,46:130,47:70,63:$Vn,64:$Vo,65:$Vp},o($Vi,[2,52],{61:$VI,62:$VJ}),{23:$Vj},o($VO,[2,57]),{5:$Vq,24:$Vr,64:$Vs,65:$Vt,67:131},{5:$Va,17:132,36:25,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},{25:[1,133]},{5:$Va,17:134,36:25,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},{16:[1,135]},{68:85,69:$Vu,70:$Vv,71:136},o($VP,[2,66]),{5:$Va,31:[1,137],36:42,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},{5:$Va,36:42,37:$Vb,39:27,40:$Vc,42:[1,138],43:$Vd,47:31,48:$Ve},{26:[2,35],51:$Vx,52:$Vy,53:$Vz,54:$VA,55:$VB,56:$VC},{26:[2,36],51:$Vx,52:$Vy,53:$Vz,54:$VA,55:$VB,56:$VC},{26:[2,37],51:$Vx,52:$Vy,53:$Vz,54:$VA,55:$VB,56:$VC},{26:[2,38],51:$Vx,52:$Vy,53:$Vz,54:$VA,55:$VB,56:$VC},{26:[2,39],51:$Vx,52:$Vy,53:$Vz,54:$VA,55:$VB,56:$VC},{26:[2,40],51:$Vx,52:$Vy,53:$Vz,54:$VA,55:$VB,56:$VC},{25:[1,139]},o($Vi,[2,44],{57:$VE,58:$VF,59:$VG,60:$VH}),o($VK,$VL),o($Vi,[2,45],{57:$VE,58:$VF,59:$VG,60:$VH}),o($Vi,[2,46],{57:$VE,58:$VF,59:$VG,60:$VH}),o($Vi,[2,47],{57:$VE,58:$VF,59:$VG,60:$VH}),o($Vi,[2,50],{61:$VI,62:$VJ}),o($Vi,[2,51],{61:$VI,62:$VJ}),o($VP,[2,59]),{5:$Va,36:42,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve,49:[1,140],50:[1,141]},{24:[1,142]},{5:$Va,31:[1,143],36:42,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},{5:$Va,17:144,36:25,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},o($VP,[2,68]),o($Vh,[2,15]),o($Vi,[2,28]),{24:[1,145]},o($Vi,[2,33]),{5:$Va,17:146,36:25,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},{25:[1,147]},o($Vg,[2,69]),{5:$Va,31:[1,148],36:42,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve},{26:[1,149]},{5:$Va,36:42,37:$Vb,39:27,40:$Vc,43:$Vd,47:31,48:$Ve,49:[1,150]},{24:[1,151]},o($Vg,[2,70]),o($Vi,[2,29]),o($Vi,[2,34]),{25:[1,152]},{24:[1,153]},{26:[1,154]},o($Vf,[2,11])];
     }
 
     performAction (yytext:string, yyleng:number, yylineno:number, yy:any, yystate:number /* action[1] */, $$:any /* vstack */, _$:any /* lstack */): any {
@@ -31,10 +29,10 @@ export class RinfoParser extends JisonParser implements JisonParserApi {
 case 1:
  return { type: 'Programa', name: $$[$0-1], sections: $$[$0] }; 
 break;
-case 2: case 9: case 15: case 20: case 26: case 55: case 64: case 68:
+case 2: case 9: case 13: case 18: case 24: case 58: case 67: case 71:
  this.$ = [$$[$0]]; 
 break;
-case 3: case 10: case 16: case 21: case 27: case 69:
+case 3: case 10: case 14: case 19: case 25: case 72:
  $$[$0-1].push($$[$0]); this.$ = $$[$0-1]; 
 break;
 case 4:
@@ -58,112 +56,118 @@ break;
 case 12:
  this.$ = 'AREAC'; 
 break;
-case 13:
- this.$ = 'AREAP'; 
-break;
-case 14:
- this.$ = 'AREAPC'; 
-break;
-case 17:
+case 15:
  this.$ = { type: 'Robot', name: $$[$0-4], variables: $$[$0-3], actions: $$[$0-1] }; 
 break;
-case 18: case 33: case 38: case 50:
+case 16: case 27: case 32: case 43: case 53:
  this.$ = $$[$0]; 
 break;
-case 19:
+case 17:
  this.$ = []; 
 break;
-case 22:
+case 20:
  this.$ = { type: 'Variable', name: $$[$0-2], varType: $$[$0] }; 
 break;
-case 23:
+case 21:
  this.$ = 'numero'; 
 break;
-case 24:
+case 22:
  this.$ = 'boolean'; 
 break;
-case 25:
+case 23:
  this.$ = 'id'; 
 break;
-case 28:
+case 26:
  this.$ = { type: 'Repetir', times: $$[$0-2], actions: $$[$0-1] }; 
 break;
-case 29:
- this.$ = { type: 'Si', condition: $$[$0-3], actions: $$[$0-1] }; 
+case 28:
+ this.$ = { type: 'Mientras', condition: $$[$0-3], actions: $$[$0-1] }; 
 break;
-case 30:
+case 29:
  this.$ = { type: 'Iniciar', robot: $$[$0-5], x: $$[$0-3], y: $$[$0-1] }; 
 break;
-case 31: case 32:
+case 30: case 31:
  this.$ = { type: 'Asignar', variable: $$[$0-2], value: $$[$0] }; 
 break;
+case 33:
+ this.$ = { type: 'Si', condition: $$[$0-3], actions: $$[$0-1], elseActions: [] }; 
+break;
 case 34:
- this.$ = { type: 'Comparacion', left: $$[$0-2], operator: '==', right: $$[$0] }; 
+ this.$ = { type: 'Si', condition: $$[$0-5], actions: $$[$0-3], elseActions: $$[$0-1] }; 
 break;
 case 35:
- this.$ = { type: 'Comparacion', left: $$[$0-2], operator: '!=', right: $$[$0] }; 
+ this.$ = { type: 'Comparacion', left: $$[$0-2], operator: '=', right: $$[$0] }; 
 break;
 case 36:
- this.$ = { type: 'Comparacion', left: $$[$0-2], operator: '<', right: $$[$0] }; 
+ this.$ = { type: 'Comparacion', left: $$[$0-2], operator: '<>', right: $$[$0] }; 
 break;
 case 37:
+ this.$ = { type: 'Comparacion', left: $$[$0-2], operator: '<', right: $$[$0] }; 
+break;
+case 38:
+ this.$ = { type: 'Comparacion', left: $$[$0-2], operator: '<=', right: $$[$0] }; 
+break;
+case 39:
  this.$ = { type: 'Comparacion', left: $$[$0-2], operator: '>', right: $$[$0] }; 
 break;
-case 39: case 45: case 60:
+case 40:
+ this.$ = { type: 'Comparacion', left: $$[$0-2], operator: '>=', right: $$[$0] }; 
+break;
+case 41: case 48: case 63:
  this.$ = { type: 'Variable', name: $$[$0] }; 
 break;
-case 40: case 46: case 57:
+case 42: case 49: case 60:
  this.$ = { type: 'Numero', value: $$[$0] }; 
 break;
-case 41:
+case 44:
  this.$ = { type: 'OpMatematica', left: $$[$0-2], operator: '+', right: $$[$0] }; 
 break;
-case 42:
+case 45:
  this.$ = { type: 'OpMatematica', left: $$[$0-2], operator: '-', right: $$[$0] }; 
 break;
-case 43:
+case 46:
  this.$ = { type: 'OpMatematica', left: $$[$0-2], operator: '*', right: $$[$0] }; 
 break;
-case 44:
+case 47:
  this.$ = { type: 'OpMatematica', left: $$[$0-2], operator: '/', right: $$[$0] }; 
 break;
-case 47:
+case 50:
  this.$ = { type: 'OpBooleana', left: $$[$0-2], operator: '&', right: $$[$0] }; 
 break;
-case 48:
+case 51:
  this.$ = { type: 'OpBooleana', left: $$[$0-2], operator: '|', right: $$[$0] }; 
 break;
-case 49:
+case 52:
  this.$ = { type: 'OpBooleana', operator: '~', right: $$[$0] }; 
 break;
-case 51: case 58:
+case 54: case 61:
  this.$ = { type: 'Booleano', value: true }; 
 break;
-case 52: case 59:
+case 55: case 62:
  this.$ = { type: 'Booleano', value: false }; 
 break;
-case 53:
+case 56:
  this.$ = { type: 'LlamadoFuncion', name: $$[$0-2], args: [] }; 
 break;
-case 54:
+case 57:
  this.$ = { type: 'LlamadoFuncion', name: $$[$0-3], args: $$[$0-1] }; 
 break;
-case 56: case 65:
+case 59: case 68:
  $$[$0-2].push($$[$0]); this.$ = $$[$0-2]; 
 break;
-case 61:
+case 64:
  this.$ = "E" 
 break;
-case 62:
+case 65:
  this.$ = "ES" 
 break;
-case 63:
+case 66:
  this.$ = { type: 'Parametro', parType: $$[$0-1], varDef: $$[$0] } 
 break;
-case 66:
+case 69:
  this.$ = { type: 'Proceso', name: $$[$0-5], args: [], actions: $$[$0-1] } 
 break;
-case 67:
+case 70:
  this.$ = { type: 'Proceso', name: $$[$0-6], args: $$[$0-4], actions: $$[$0-1] } 
 break;
         }
@@ -192,14 +196,15 @@ export class RinfoLexer extends JisonLexer implements JisonLexerApi {
         /^(?:fin\b)/,
         /^(?:finprograma\b)/,
         /^(?:si\b)/,
+        /^(?:sino\b)/,
         /^(?:finsi\b)/,
         /^(?:AreaC\b)/,
-        /^(?:AreaP\b)/,
-        /^(?:AreaPC\b)/,
         /^(?:numero\b)/,
         /^(?:boolean\b)/,
         /^(?:repetir\b)/,
         /^(?:finrepetir\b)/,
+        /^(?:mientras\b)/,
+        /^(?:finmientras\b)/,
         /^(?:proceso\b)/,
         /^(?:E\b)/,
         /^(?:ES\b)/,
@@ -217,7 +222,7 @@ export class RinfoLexer extends JisonLexer implements JisonLexerApi {
         /^(?:$)/,
         /^(?:.)/
     ];
-    conditions: any = {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],"inclusive":true}}
+    conditions: any = {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],"inclusive":true}}
     performAction (yy:any,yy_:any,$avoiding_name_collisions:any,YY_START:any): any {
           var YYSTATE=YY_START;
         switch($avoiding_name_collisions) {
@@ -231,65 +236,67 @@ export class RinfoLexer extends JisonLexer implements JisonLexerApi {
       break;
     case 4:return 12;
       break;
-    case 5:return 31;
+    case 5:return 29;
       break;
     case 6:return 14;
       break;
     case 7:return 16;
       break;
-    case 8:return 33;
+    case 8:return 31;
       break;
     case 9:return 18;
       break;
-    case 10:return 41;
+    case 10:return 48;
       break;
-    case 11:return 43;
+    case 11:return 50;
       break;
-    case 12:return 27;
+    case 12:return 49;
       break;
-    case 13:return 28;
+    case 13:return 27;
       break;
-    case 14:return 29;
+    case 14:return 34;
       break;
-    case 15:return 36;
+    case 15:return 35;
       break;
     case 16:return 37;
       break;
-    case 17:return 39;
+    case 17:return 38;
       break;
     case 18:return 40;
       break;
-    case 19:return 70;
+    case 19:return 42;
       break;
-    case 20:return 65;
+    case 20:return 74;
       break;
-    case 21:return 66;
+    case 21:return 69;
       break;
-    case 22:return 24;
+    case 22:return 70;
       break;
-    case 23:return 60;
+    case 23:return 24;
       break;
-    case 24:return 61;
+    case 24:return 64;
       break;
-    case 25:return 5;
+    case 25:return 65;
       break;
-    case 26:return 45;
+    case 26:return 5;
       break;
-    case 27:return 21;
+    case 27:return 44;
       break;
-    case 28:return 23;
+    case 28:return 21;
       break;
-    case 29:return 26;
+    case 29:return 23;
       break;
-    case 30:return 25;
+    case 30:return 26;
       break;
-    case 31:return 53;
+    case 31:return 25;
       break;
-    case 32:return 54;
+    case 32:return 57;
       break;
-    case 33:return 19;
+    case 33:return 58;
       break;
-    case 34:return 'INVALID';
+    case 34:return 19;
+      break;
+    case 35:return 'INVALID';
       break;
         }
     }

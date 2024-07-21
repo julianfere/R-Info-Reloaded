@@ -12,14 +12,15 @@ comenzar\b            return 'COMENZAR';
 fin                   return 'FIN';
 finprograma\b         return 'FINPROGRAMA';
 si\b                  return 'si';
+sino\b                  return 'sino';
 finsi\b               return 'finsi';
 AreaC\b               return 'AREAC';
-AreaP\b               return 'AREAP';
-AreaPC\b              return 'AREAPC';
 numero\b              return 'TIPO_VAR_NUMERO';
 boolean\b             return 'BOOLEAN';
 repetir\b             return 'REPETIR';
 finrepetir\b          return 'FINREPETIR';
+mientras\b             return 'MIENTRAS';
+finmientras\b          return 'FINMIENTRAS';
 proceso\b             return 'PROCESO';
 E\b                   return 'PARAMETRO_ENTRADA';
 ES\b                  return 'PARAMETRO_ENTRADA_SALIDA';
@@ -73,8 +74,6 @@ area_def
 
 area_tipo
     : 'AREAC' { $$ = 'AREAC'; }
-    | 'AREAP' { $$ = 'AREAP'; }
-    | 'AREAPC' { $$ = 'AREAPC'; }
     ;
 
 robot_defs
@@ -114,7 +113,8 @@ acciones
 
 accion
     : 'REPETIR' 'NUMBER' acciones 'FINREPETIR' { $$ = { type: 'Repetir', times: $2, actions: $3 }; }
-    | 'si' 'LPAREN' condicion 'RPAREN' acciones 'finsi' { $$ = { type: 'Si', condition: $3, actions: $5 }; }
+    | estructura_si { $$ = $1; }
+    | 'MIENTRAS' 'LPAREN' condicion 'RPAREN' acciones 'FINMIENTRAS' { $$ = { type: 'Mientras', condition: $3, actions: $5 }; }
     | 'Iniciar' 'LPAREN' ID 'COMMA' 'NUMBER' 'COMMA' 'NUMBER' 'RPAREN'
       { $$ = { type: 'Iniciar', robot: $3, x: $5, y: $7 }; }
     | ID 'ASSIGN' matematica { $$ = { type: 'Asignar', variable: $1, value: $3 }; }
@@ -122,14 +122,21 @@ accion
     | llamado_funcion { $$ = $1; }
     ;
 
+estructura_si
+    : 'si' 'LPAREN' condicion 'RPAREN' acciones 'finsi' { $$ = { type: 'Si', condition: $3, actions: $5, elseActions: [] }; }
+    | 'si' 'LPAREN' condicion 'RPAREN' acciones 'sino' acciones 'finsi' { $$ = { type: 'Si', condition: $3, actions: $5, elseActions: $7 }; }
+    ;
+
 condicion
-    : condicion '==' condicion { $$ = { type: 'Comparacion', left: $1, operator: '==', right: $3 }; }
-    | condicion '!=' condicion { $$ = { type: 'Comparacion', left: $1, operator: '!=', right: $3 }; }
+    : condicion '=' condicion { $$ = { type: 'Comparacion', left: $1, operator: '=', right: $3 }; }
+    | condicion '<>' condicion { $$ = { type: 'Comparacion', left: $1, operator: '<>', right: $3 }; }
     | condicion '<' condicion { $$ = { type: 'Comparacion', left: $1, operator: '<', right: $3 }; }
+    | condicion '<=' condicion { $$ = { type: 'Comparacion', left: $1, operator: '<=', right: $3 }; }
     | condicion '>' condicion { $$ = { type: 'Comparacion', left: $1, operator: '>', right: $3 }; }
-    | llamado_funcion { $$ = $1; }
+    | condicion '>=' condicion { $$ = { type: 'Comparacion', left: $1, operator: '>=', right: $3 }; }
     | ID { $$ = { type: 'Variable', name: $1 }; }
     | 'NUMBER' { $$ = { type: 'Numero', value: $1 }; }
+    | llamado_funcion { $$ = $1; }
     ;
 
 matematica
@@ -191,5 +198,3 @@ proceso_defs
     | proceso_defs proceso_def { $1.push($2); $$ = $1; }
     ;
 %%
-
-/* Optional JavaScript section to include parser actions, etc. */
