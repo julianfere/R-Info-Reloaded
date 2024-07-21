@@ -1,8 +1,25 @@
+import City from "./city";
 import { RinfoParser } from "./ParserAndLexer";
 const fs = require("fs");
 
 const programRinfo = fs.readFileSync("src/program.rinfo", "utf8");
 
-const result = new RinfoParser().parse(programRinfo);
+const yy = {
+  robots: [],
+  vars: [],
+};
 
-console.log(programRinfo.trim(), "=", result);
+const city = new City(100, 100);
+
+const handler = {
+  robotDef: (robotName: string, caca: any) => {},
+  varDef: (type: string, identifier: string, value: any) => {},
+};
+
+const result = new RinfoParser().parse(programRinfo, {
+  ...yy,
+});
+
+console.log("Robots declarados:", result);
+
+fs.writeFileSync("src/program.json", JSON.stringify(result, null, 2));

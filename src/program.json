@@ -1,0 +1,237 @@
+{
+  "type": "Programa",
+  "name": "RecolectorDeFlores",
+  "sections": [
+    {
+      "type": "Areas",
+      "areas": [
+        {
+          "type": "Area",
+          "name": "jardin",
+          "areaType": "AREAC",
+          "x1": "1",
+          "y1": "1",
+          "x2": "10",
+          "y2": "10"
+        }
+      ]
+    },
+    {
+      "type": "Robots",
+      "robots": [
+        {
+          "type": "Robot",
+          "name": "recolector",
+          "variables": [
+            {
+              "type": "Variable",
+              "name": "flores",
+              "varType": "numero"
+            }
+          ],
+          "actions": [
+            {
+              "type": "Asignar",
+              "variable": "flores",
+              "value": {
+                "type": "Numero",
+                "value": "0"
+              }
+            },
+            {
+              "type": "Repetir",
+              "times": "10",
+              "actions": [
+                {
+                  "type": "Repetir",
+                  "times": "9",
+                  "actions": [
+                    {
+                      "type": "Si",
+                      "condition": {
+                        "type": "CondicionFirma",
+                        "firma": {
+                          "type": "Firma",
+                          "name": "HayFlorEnLaEsquina",
+                          "args": []
+                        }
+                      },
+                      "actions": [
+                        {
+                          "type": "Firma",
+                          "name": {
+                            "type": "Firma",
+                            "name": "tomarFlor",
+                            "args": []
+                          },
+                          "args": []
+                        },
+                        {
+                          "type": "Asignar",
+                          "variable": "flores",
+                          "value": {
+                            "type": "Operacion",
+                            "left": {
+                              "type": "Variable",
+                              "name": "flores"
+                            },
+                            "operator": "+",
+                            "right": {
+                              "type": "Numero",
+                              "value": "1"
+                            }
+                          }
+                        },
+                        {
+                          "type": "Firma",
+                          "name": {
+                            "type": "Firma",
+                            "name": "mover",
+                            "args": []
+                          },
+                          "args": []
+                        },
+                        {
+                          "type": "Firma",
+                          "name": {
+                            "type": "Firma",
+                            "name": "derecha",
+                            "args": []
+                          },
+                          "args": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Si",
+                  "condition": {
+                    "type": "CondicionFirma",
+                    "firma": {
+                      "type": "Firma",
+                      "name": "HayFlorEnLaEsquina",
+                      "args": []
+                    }
+                  },
+                  "actions": [
+                    {
+                      "type": "Firma",
+                      "name": {
+                        "type": "Firma",
+                        "name": "tomarFlor",
+                        "args": []
+                      },
+                      "args": []
+                    },
+                    {
+                      "type": "Asignar",
+                      "variable": "flores",
+                      "value": {
+                        "type": "Operacion",
+                        "left": {
+                          "type": "Variable",
+                          "name": "flores"
+                        },
+                        "operator": "+",
+                        "right": {
+                          "type": "Numero",
+                          "value": "1"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Repetir",
+              "times": "10",
+              "actions": [
+                {
+                  "type": "Repetir",
+                  "times": "10",
+                  "actions": [
+                    {
+                      "type": "Firma",
+                      "name": {
+                        "type": "Firma",
+                        "name": "mover",
+                        "args": []
+                      },
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "Firma",
+                  "name": {
+                    "type": "Firma",
+                    "name": "derecha",
+                    "args": []
+                  },
+                  "args": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Variables",
+      "variables": [
+        {
+          "type": "Variable",
+          "name": "bot",
+          "varType": "id"
+        }
+      ]
+    },
+    {
+      "type": "Comenzar",
+      "actions": [
+        {
+          "type": "Firma",
+          "name": {
+            "type": "Firma",
+            "name": "AsignarArea",
+            "args": [
+              {
+                "type": "Variable",
+                "name": "bot"
+              },
+              {
+                "type": "Variable",
+                "name": "jardin"
+              }
+            ]
+          },
+          "args": []
+        },
+        {
+          "type": "Firma",
+          "name": {
+            "type": "Firma",
+            "name": "Iniciar",
+            "args": [
+              {
+                "type": "Variable",
+                "name": "bot"
+              },
+              {
+                "type": "Numero",
+                "value": "1"
+              },
+              {
+                "type": "Numero",
+                "value": "1"
+              }
+            ]
+          },
+          "args": []
+        }
+      ]
+    }
+  ]
+}

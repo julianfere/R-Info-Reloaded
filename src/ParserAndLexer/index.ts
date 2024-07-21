@@ -9,26 +9,154 @@ import { JisonParser, JisonParserApi, StateType, SymbolsType, TerminalsType, Pro
 
 export class RinfoParser extends JisonParser implements JisonParserApi {
     $?: any;
-    symbols_: SymbolsType = {"error":2,"programa":3,"PROGRAMA":4,"ID":5,"secciones":6,"seccion":7,"AREAS":8,"area_defs":9,"ROBOTS":10,"robot_defs":11,"VARIABLES":12,"var_defs":13,"COMENZAR":14,"acciones":15,"FINPROGRAMA":16,"EOF":17,"area_def":18,"COLON":19,"area_tipo":20,"LPAREN":21,"NUMBER":22,"COMMA":23,"RPAREN":24,"AREAC":25,"AREAP":26,"AREAPC":27,"robot_def":28,"ROBOT":29,"var_section":30,"FIN":31,"var_def":32,"tipo_var":33,"TIPO_VAR_NUMERO":34,"BOOLEAN":35,"accion":36,"tipo_parametro":37,"PARAMETRO_ENTRADA":38,"PARAMETRO_ENTRADA_SALIDA":39,"parametro":40,"parametros":41,"argumento":42,"argumentos":43,"proceso":44,"PROCESO":45,"firma":46,"REPETIR":47,"FINREPETIR":48,"si":49,"condicion":50,"finsi":51,"Iniciar":52,"ASSIGN":53,"matematica":54,"algebra_booleana":55,"==":56,"!=":57,"<":58,">":59,"+":60,"-":61,"*":62,"/":63,"AND":64,"OR":65,"NOT":66,"V":67,"F":68,"$accept":0,"$end":1};
-    terminals_: TerminalsType = {2:"error",4:"PROGRAMA",5:"ID",8:"AREAS",10:"ROBOTS",12:"VARIABLES",14:"COMENZAR",16:"FINPROGRAMA",17:"EOF",19:"COLON",21:"LPAREN",22:"NUMBER",23:"COMMA",24:"RPAREN",25:"AREAC",26:"AREAP",27:"AREAPC",29:"ROBOT",31:"FIN",34:"TIPO_VAR_NUMERO",35:"BOOLEAN",38:"PARAMETRO_ENTRADA",39:"PARAMETRO_ENTRADA_SALIDA",45:"PROCESO",47:"REPETIR",48:"FINREPETIR",49:"si",51:"finsi",52:"Iniciar",53:"ASSIGN",56:"==",57:"!=",58:"<",59:">",60:"+",61:"-",62:"*",63:"/",64:"AND",65:"OR",66:"NOT",67:"V",68:"F"};
-    productions_: ProductionsType = [0,[3,3],[6,1],[6,2],[7,2],[7,2],[7,2],[7,4],[9,1],[9,2],[18,12],[20,1],[20,1],[20,1],[11,1],[11,2],[28,6],[30,2],[30,0],[13,1],[13,2],[32,3],[33,1],[33,1],[33,1],[15,1],[15,2],[37,1],[37,1],[40,4],[41,1],[41,3],[42,1],[42,1],[42,1],[43,1],[43,3],[44,6],[44,7],[46,3],[46,4],[36,4],[36,6],[36,8],[36,3],[36,3],[36,1],[50,3],[50,3],[50,3],[50,3],[50,1],[54,3],[54,3],[54,3],[54,3],[54,1],[54,1],[55,3],[55,3],[55,2],[55,1],[55,1]];
+    symbols_: SymbolsType = {"error":2,"programa":3,"PROGRAMA":4,"ID":5,"secciones":6,"seccion":7,"AREAS":8,"area_defs":9,"ROBOTS":10,"robot_defs":11,"VARIABLES":12,"var_defs":13,"COMENZAR":14,"acciones":15,"FINPROGRAMA":16,"EOF":17,"area_def":18,"COLON":19,"area_tipo":20,"LPAREN":21,"NUMBER":22,"COMMA":23,"RPAREN":24,"AREAC":25,"AREAP":26,"AREAPC":27,"robot_def":28,"ROBOT":29,"var_section":30,"FIN":31,"var_def":32,"tipo_var":33,"TIPO_VAR_NUMERO":34,"BOOLEAN":35,"accion":36,"REPETIR":37,"FINREPETIR":38,"si":39,"condicion":40,"finsi":41,"Iniciar":42,"ASSIGN":43,"matematica":44,"algebra_booleana":45,"firma":46,"==":47,"!=":48,"<":49,">":50,"+":51,"-":52,"*":53,"/":54,"AND":55,"OR":56,"NOT":57,"V":58,"F":59,"argumentos":60,"argumento":61,"$accept":0,"$end":1};
+    terminals_: TerminalsType = {2:"error",4:"PROGRAMA",5:"ID",8:"AREAS",10:"ROBOTS",12:"VARIABLES",14:"COMENZAR",16:"FINPROGRAMA",17:"EOF",19:"COLON",21:"LPAREN",22:"NUMBER",23:"COMMA",24:"RPAREN",25:"AREAC",26:"AREAP",27:"AREAPC",29:"ROBOT",31:"FIN",34:"TIPO_VAR_NUMERO",35:"BOOLEAN",37:"REPETIR",38:"FINREPETIR",39:"si",41:"finsi",42:"Iniciar",43:"ASSIGN",47:"==",48:"!=",49:"<",50:">",51:"+",52:"-",53:"*",54:"/",55:"AND",56:"OR",57:"NOT",58:"V",59:"F"};
+    productions_: ProductionsType = [0,[3,3],[6,1],[6,2],[7,2],[7,2],[7,2],[7,4],[9,1],[9,2],[18,12],[20,1],[20,1],[20,1],[11,1],[11,2],[28,6],[30,2],[30,0],[13,1],[13,2],[32,3],[33,1],[33,1],[33,1],[15,1],[15,2],[36,4],[36,6],[36,8],[36,3],[36,3],[36,1],[40,3],[40,3],[40,3],[40,3],[40,1],[44,3],[44,3],[44,3],[44,3],[44,1],[44,1],[45,3],[45,3],[45,2],[45,1],[45,1],[46,3],[46,4],[60,1],[60,3],[61,1],[61,1],[61,1]];
     table: Array<StateType>;
-    defaultActions: {[key:number]: any} = {41:[2,11],42:[2,12],43:[2,13],54:[2,51],91:[2,47],92:[2,48],93:[2,49],94:[2,50]};
+    defaultActions: {[key:number]: any} = {41:[2,11],42:[2,12],43:[2,13],54:[2,37],91:[2,33],92:[2,34],93:[2,35],94:[2,36]};
 
     constructor (yy = {}, lexer = new RinfoLexer(yy)) {
       super(yy, lexer);
 
       // shorten static method to just `o` for terse STATE_TABLE
-      const $V0=[1,6],$V1=[1,7],$V2=[1,8],$V3=[1,9],$V4=[1,8,10,12,14],$V5=[1,13],$V6=[1,16],$V7=[1,19],$V8=[1,25],$V9=[1,22],$Va=[1,23],$Vb=[1,24],$Vc=[1,5,8,10,12,14],$Vd=[1,8,10,12,14,29],$Ve=[5,16,31,47,48,49,51,52],$Vf=[1,39],$Vg=[1,58],$Vh=[1,59],$Vi=[1,60],$Vj=[1,61],$Vk=[1,62],$Vl=[1,68],$Vm=[1,66],$Vn=[1,67],$Vo=[1,79],$Vp=[1,80],$Vq=[1,81],$Vr=[1,82],$Vs=[1,83],$Vt=[1,84],$Vu=[5,16,31,47,48,49,51,52,60,61,62,63],$Vv=[5,16,31,47,48,49,51,52,64,65],$Vw=[5,16,24,31,47,48,49,51,52],$Vx=[1,87],$Vy=[23,24];
+      const $V0=[1,6],$V1=[1,7],$V2=[1,8],$V3=[1,9],$V4=[1,8,10,12,14],$V5=[1,13],$V6=[1,16],$V7=[1,19],$V8=[1,25],$V9=[1,22],$Va=[1,23],$Vb=[1,24],$Vc=[1,5,8,10,12,14],$Vd=[1,8,10,12,14,29],$Ve=[5,16,31,37,38,39,41,42],$Vf=[1,39],$Vg=[1,58],$Vh=[1,59],$Vi=[1,60],$Vj=[1,61],$Vk=[1,62],$Vl=[1,68],$Vm=[1,66],$Vn=[1,67],$Vo=[1,79],$Vp=[1,80],$Vq=[1,81],$Vr=[1,82],$Vs=[1,83],$Vt=[1,84],$Vu=[5,16,31,37,38,39,41,42,51,52,53,54],$Vv=[5,16,31,37,38,39,41,42,55,56],$Vw=[5,16,24,31,37,38,39,41,42],$Vx=[23,24];
       const o = JisonParser.expandParseTable;
-      this.table = [{3:1,4:[1,2]},{1:[3]},{5:[1,3]},{6:4,7:5,8:$V0,10:$V1,12:$V2,14:$V3},{1:[2,1],7:10,8:$V0,10:$V1,12:$V2,14:$V3},o($V4,[2,2]),{5:$V5,9:11,18:12},{11:14,28:15,29:$V6},{5:$V7,13:17,32:18},{5:$V8,15:20,36:21,46:26,47:$V9,49:$Va,52:$Vb},o($V4,[2,3]),o($V4,[2,4],{18:27,5:$V5}),o($Vc,[2,8]),{19:[1,28]},o($V4,[2,5],{28:29,29:$V6}),o($Vd,[2,14]),{5:[1,30]},o($V4,[2,6],{32:31,5:$V7}),o($Vc,[2,19]),{19:[1,32]},{5:$V8,16:[1,33],36:34,46:26,47:$V9,49:$Va,52:$Vb},o($Ve,[2,25]),{22:[1,35]},{21:[1,36]},{21:[1,37]},{21:$Vf,53:[1,38]},o($Ve,[2,46]),o($Vc,[2,9]),{20:40,25:[1,41],26:[1,42],27:[1,43]},o($Vd,[2,15]),{12:[1,45],14:[2,18],30:44},o($Vc,[2,20]),{5:[1,49],33:46,34:[1,47],35:[1,48]},{17:[1,50]},o($Ve,[2,26]),{5:$V8,15:51,36:21,46:26,47:$V9,49:$Va,52:$Vb},{5:[1,53],46:54,50:52},{5:[1,55]},{5:$Vg,22:$Vh,54:56,55:57,66:$Vi,67:$Vj,68:$Vk},{5:$Vl,22:$Vm,24:[1,63],35:$Vn,42:65,43:64},{21:[1,69]},{21:[2,11]},{21:[2,12]},{21:[2,13]},{14:[1,70]},{5:$V7,13:71,32:18},o($Vc,[2,21]),o($Vc,[2,22]),o($Vc,[2,23]),o($Vc,[2,24]),o($V4,[2,7]),{5:$V8,36:34,46:26,47:$V9,48:[1,72],49:$Va,52:$Vb},{24:[1,73]},{21:$Vf,56:[1,74],57:[1,75],58:[1,76],59:[1,77]},{24:[2,51]},{23:[1,78]},o($Ve,[2,44],{60:$Vo,61:$Vp,62:$Vq,63:$Vr}),o($Ve,[2,45],{64:$Vs,65:$Vt}),o($Vu,[2,56]),o($Vu,[2,57]),{55:85,66:$Vi,67:$Vj,68:$Vk},o($Vv,[2,61]),o($Vv,[2,62]),o($Vw,[2,39]),{23:$Vx,24:[1,86]},o($Vy,[2,35]),o($Vy,[2,32]),o($Vy,[2,33]),o($Vy,[2,34]),{22:[1,88]},{5:$V8,15:89,36:21,46:26,47:$V9,49:$Va,52:$Vb},{5:$V7,14:[2,17],32:31},o($Ve,[2,41]),{5:$V8,15:90,36:21,46:26,47:$V9,49:$Va,52:$Vb},{22:[1,91]},{22:[1,92]},{22:[1,93]},{22:[1,94]},{22:[1,95]},{5:$Vg,22:$Vh,54:96},{5:$Vg,22:$Vh,54:97},{5:$Vg,22:$Vh,54:98},{5:$Vg,22:$Vh,54:99},{55:100,66:$Vi,67:$Vj,68:$Vk},{55:101,66:$Vi,67:$Vj,68:$Vk},o($Ve,[2,60],{64:$Vs,65:$Vt}),o($Vw,[2,40]),{5:$Vl,22:$Vm,35:$Vn,42:65,43:102},{23:[1,103]},{5:$V8,31:[1,104],36:34,46:26,47:$V9,49:$Va,52:$Vb},{5:$V8,36:34,46:26,47:$V9,49:$Va,51:[1,105],52:$Vb},{24:[2,47]},{24:[2,48]},{24:[2,49]},{24:[2,50]},{23:[1,106]},o($Ve,[2,52],{60:$Vo,61:$Vp,62:$Vq,63:$Vr}),o($Ve,[2,53],{60:$Vo,61:$Vp,62:$Vq,63:$Vr}),o($Ve,[2,54],{60:$Vo,61:$Vp,62:$Vq,63:$Vr}),o($Ve,[2,55],{60:$Vo,61:$Vp,62:$Vq,63:$Vr}),o($Ve,[2,58],{64:$Vs,65:$Vt}),o($Ve,[2,59],{64:$Vs,65:$Vt}),{23:$Vx,24:[2,36]},{22:[1,107]},o($Vd,[2,16]),o($Ve,[2,42]),{22:[1,108]},{23:[1,109]},{24:[1,110]},{22:[1,111]},o($Ve,[2,43]),{23:[1,112]},{22:[1,113]},{24:[1,114]},o($Vc,[2,10])];
+      this.table = [{3:1,4:[1,2]},{1:[3]},{5:[1,3]},{6:4,7:5,8:$V0,10:$V1,12:$V2,14:$V3},{1:[2,1],7:10,8:$V0,10:$V1,12:$V2,14:$V3},o($V4,[2,2]),{5:$V5,9:11,18:12},{11:14,28:15,29:$V6},{5:$V7,13:17,32:18},{5:$V8,15:20,36:21,37:$V9,39:$Va,42:$Vb,46:26},o($V4,[2,3]),o($V4,[2,4],{18:27,5:$V5}),o($Vc,[2,8]),{19:[1,28]},o($V4,[2,5],{28:29,29:$V6}),o($Vd,[2,14]),{5:[1,30]},o($V4,[2,6],{32:31,5:$V7}),o($Vc,[2,19]),{19:[1,32]},{5:$V8,16:[1,33],36:34,37:$V9,39:$Va,42:$Vb,46:26},o($Ve,[2,25]),{22:[1,35]},{21:[1,36]},{21:[1,37]},{21:$Vf,43:[1,38]},o($Ve,[2,32]),o($Vc,[2,9]),{20:40,25:[1,41],26:[1,42],27:[1,43]},o($Vd,[2,15]),{12:[1,45],14:[2,18],30:44},o($Vc,[2,20]),{5:[1,49],33:46,34:[1,47],35:[1,48]},{17:[1,50]},o($Ve,[2,26]),{5:$V8,15:51,36:21,37:$V9,39:$Va,42:$Vb,46:26},{5:[1,53],40:52,46:54},{5:[1,55]},{5:$Vg,22:$Vh,44:56,45:57,57:$Vi,58:$Vj,59:$Vk},{5:$Vl,22:$Vm,24:[1,63],35:$Vn,60:64,61:65},{21:[1,69]},{21:[2,11]},{21:[2,12]},{21:[2,13]},{14:[1,70]},{5:$V7,13:71,32:18},o($Vc,[2,21]),o($Vc,[2,22]),o($Vc,[2,23]),o($Vc,[2,24]),o($V4,[2,7]),{5:$V8,36:34,37:$V9,38:[1,72],39:$Va,42:$Vb,46:26},{24:[1,73]},{21:$Vf,47:[1,74],48:[1,75],49:[1,76],50:[1,77]},{24:[2,37]},{23:[1,78]},o($Ve,[2,30],{51:$Vo,52:$Vp,53:$Vq,54:$Vr}),o($Ve,[2,31],{55:$Vs,56:$Vt}),o($Vu,[2,42]),o($Vu,[2,43]),{45:85,57:$Vi,58:$Vj,59:$Vk},o($Vv,[2,47]),o($Vv,[2,48]),o($Vw,[2,49]),{23:[1,87],24:[1,86]},o($Vx,[2,51]),o($Vx,[2,53]),o($Vx,[2,54]),o($Vx,[2,55]),{22:[1,88]},{5:$V8,15:89,36:21,37:$V9,39:$Va,42:$Vb,46:26},{5:$V7,14:[2,17],32:31},o($Ve,[2,27]),{5:$V8,15:90,36:21,37:$V9,39:$Va,42:$Vb,46:26},{22:[1,91]},{22:[1,92]},{22:[1,93]},{22:[1,94]},{22:[1,95]},{5:$Vg,22:$Vh,44:96},{5:$Vg,22:$Vh,44:97},{5:$Vg,22:$Vh,44:98},{5:$Vg,22:$Vh,44:99},{45:100,57:$Vi,58:$Vj,59:$Vk},{45:101,57:$Vi,58:$Vj,59:$Vk},o($Ve,[2,46],{55:$Vs,56:$Vt}),o($Vw,[2,50]),{5:$Vl,22:$Vm,35:$Vn,61:102},{23:[1,103]},{5:$V8,31:[1,104],36:34,37:$V9,39:$Va,42:$Vb,46:26},{5:$V8,36:34,37:$V9,39:$Va,41:[1,105],42:$Vb,46:26},{24:[2,33]},{24:[2,34]},{24:[2,35]},{24:[2,36]},{23:[1,106]},o($Ve,[2,38],{51:$Vo,52:$Vp,53:$Vq,54:$Vr}),o($Ve,[2,39],{51:$Vo,52:$Vp,53:$Vq,54:$Vr}),o($Ve,[2,40],{51:$Vo,52:$Vp,53:$Vq,54:$Vr}),o($Ve,[2,41],{51:$Vo,52:$Vp,53:$Vq,54:$Vr}),o($Ve,[2,44],{55:$Vs,56:$Vt}),o($Ve,[2,45],{55:$Vs,56:$Vt}),o($Vx,[2,52]),{22:[1,107]},o($Vd,[2,16]),o($Ve,[2,28]),{22:[1,108]},{23:[1,109]},{24:[1,110]},{22:[1,111]},o($Ve,[2,29]),{23:[1,112]},{22:[1,113]},{24:[1,114]},o($Vc,[2,10])];
     }
 
     performAction (yytext:string, yyleng:number, yylineno:number, yy:any, yystate:number /* action[1] */, $$:any /* vstack */, _$:any /* lstack */): any {
 /* this == yyval */
           var $0 = $$.length - 1;
         switch (yystate) {
-
+case 1:
+ return { type: 'Programa', name: $$[$0-1], sections: $$[$0] }; 
+break;
+case 2: case 8: case 14: case 19: case 25: case 51:
+ this.$ = [$$[$0]]; 
+break;
+case 3: case 9: case 15: case 20: case 26:
+ $$[$0-1].push($$[$0]); this.$ = $$[$0-1]; 
+break;
+case 4:
+ this.$ = { type: 'Areas', areas: $$[$0] }; 
+break;
+case 5:
+ this.$ = { type: 'Robots', robots: $$[$0] }; 
+break;
+case 6:
+ this.$ = { type: 'Variables', variables: $$[$0] }; 
+break;
+case 7:
+ this.$ = { type: 'Comenzar', actions: $$[$0-2] }; 
+break;
+case 10:
+ this.$ = { type: 'Area', name: $$[$0-11], areaType: $$[$0-9], x1: $$[$0-7], y1: $$[$0-5], x2: $$[$0-3], y2: $$[$0-1] }; 
+break;
+case 11:
+ this.$ = 'AREAC'; 
+break;
+case 12:
+ this.$ = 'AREAP'; 
+break;
+case 13:
+ this.$ = 'AREAPC'; 
+break;
+case 16:
+ this.$ = { type: 'Robot', name: $$[$0-4], variables: $$[$0-3], actions: $$[$0-1] }; yy.robots.push(this.$); yy.vars = []; 
+break;
+case 17:
+ this.$ = $$[$0]; 
+break;
+case 18:
+ this.$ = []; 
+break;
+case 21:
+ this.$ = { type: 'Variable', name: $$[$0-2], varType: $$[$0] }; yy.vars.push(this.$); 
+break;
+case 22:
+ this.$ = 'numero'; 
+break;
+case 23:
+ this.$ = 'boolean'; 
+break;
+case 24:
+ this.$ = 'id'; 
+break;
+case 27:
+ this.$ = { type: 'Repetir', times: $$[$0-2], actions: $$[$0-1] }; 
+break;
+case 28:
+ this.$ = { type: 'Si', condition: $$[$0-3], actions: $$[$0-1] }; 
+break;
+case 29:
+ this.$ = { type: 'Iniciar', robot: $$[$0-5], x: $$[$0-3], y: $$[$0-1] }; 
+break;
+case 30: case 31:
+ this.$ = { type: 'Asignar', variable: $$[$0-2], value: $$[$0] }; 
+break;
+case 32:
+ this.$ = { type: 'Firma', name: $$[$0], args: [] }; 
+break;
+case 33:
+ this.$ = { type: 'Condicion', left: $$[$0-2], operator: '==', right: $$[$0] }; 
+break;
+case 34:
+ this.$ = { type: 'Condicion', left: $$[$0-2], operator: '!=', right: $$[$0] }; 
+break;
+case 35:
+ this.$ = { type: 'Condicion', left: $$[$0-2], operator: '<', right: $$[$0] }; 
+break;
+case 36:
+ this.$ = { type: 'Condicion', left: $$[$0-2], operator: '>', right: $$[$0] }; 
+break;
+case 37:
+ this.$ = { type: 'CondicionFirma', firma: $$[$0] }; 
+break;
+case 38:
+ this.$ = { type: 'Operacion', left: $$[$0-2], operator: '+', right: $$[$0] }; 
+break;
+case 39:
+ this.$ = { type: 'Operacion', left: $$[$0-2], operator: '-', right: $$[$0] }; 
+break;
+case 40:
+ this.$ = { type: 'Operacion', left: $$[$0-2], operator: '*', right: $$[$0] }; 
+break;
+case 41:
+ this.$ = { type: 'Operacion', left: $$[$0-2], operator: '/', right: $$[$0] }; 
+break;
+case 42: case 55:
+ this.$ = { type: 'Variable', name: $$[$0] }; 
+break;
+case 43: case 53:
+ this.$ = { type: 'Numero', value: $$[$0] }; 
+break;
+case 44:
+ this.$ = { type: 'OperacionBooleana', left: $$[$0-2], operator: 'AND', right: $$[$0] }; 
+break;
+case 45:
+ this.$ = { type: 'OperacionBooleana', left: $$[$0-2], operator: 'OR', right: $$[$0] }; 
+break;
+case 46:
+ this.$ = { type: 'OperacionBooleana', operator: 'NOT', right: $$[$0] }; 
+break;
+case 47:
+ this.$ = { type: 'Booleano', value: 'V' }; 
+break;
+case 48:
+ this.$ = { type: 'Booleano', value: 'F' }; 
+break;
+case 49:
+ this.$ = { type: 'Firma', name: $$[$0-2], args: [] }; 
+break;
+case 50:
+ this.$ = { type: 'Firma', name: $$[$0-3], args: $$[$0-1] }; 
+break;
+case 52:
+ $$[$0-2].push($$[$0]); this.$ = $$[$0-2]; 
+break;
+case 54:
+ this.$ = { type: 'Booleano', value: $$[$0] }; 
+break;
         }
     }
 }
@@ -99,9 +227,9 @@ export class RinfoLexer extends JisonLexer implements JisonLexerApi {
       break;
     case 8:return 16;
       break;
-    case 9:return 49;
+    case 9:return 39;
       break;
-    case 10:return 51;
+    case 10:return 41;
       break;
     case 11:return 25;
       break;
@@ -113,21 +241,21 @@ export class RinfoLexer extends JisonLexer implements JisonLexerApi {
       break;
     case 15:return 35;
       break;
-    case 16:return 47;
+    case 16:return 37;
       break;
-    case 17:return 48;
+    case 17:return 38;
       break;
-    case 18:return 45;
+    case 18:return 'PROCESO';
       break;
-    case 19:return 38;
+    case 19:return 'PARAMETRO_ENTRADA';
       break;
-    case 20:return 39;
+    case 20:return 'PARAMETRO_ENTRADA_SALIDA';
       break;
     case 21:return 22;
       break;
     case 22:return 5;
       break;
-    case 23:return 53;
+    case 23:return 43;
       break;
     case 24:return 19;
       break;
@@ -137,9 +265,9 @@ export class RinfoLexer extends JisonLexer implements JisonLexerApi {
       break;
     case 27:return 23;
       break;
-    case 28:return 60;
+    case 28:return 51;
       break;
-    case 29:return 61;
+    case 29:return 52;
       break;
     case 30:return 17;
       break;
