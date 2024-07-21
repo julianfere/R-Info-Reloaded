@@ -1,4 +1,19 @@
 programa RecolectorDeFlores
+procesos
+  proceso cuadrado1()
+  comenzar
+    repetir 4
+      mover()
+      derecha()
+    finrepetir
+  fin
+  proceso cuadrado2(E hola: numero, ES goodbye: boolean)
+  comenzar
+    repetir 4
+      mover()
+      derecha()
+    finrepetir
+  fin
 areas
   jardin : AreaC(1,1,10,10)
 robots
@@ -10,6 +25,7 @@ robots
     repetir 10
       repetir 9
         si (HayFlorEnLaEsquina())
+          exisde(V,2,hola)
           tomarFlor()
           flores := flores + 1
           mover()

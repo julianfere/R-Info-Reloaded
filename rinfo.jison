@@ -4,6 +4,7 @@
 \s+                   /* skip whitespace */
 programa\b            return 'PROGRAMA';
 areas\b               return 'AREAS';
+procesos\b               return 'PROCESOS';
 robots\b              return 'ROBOTS';
 robot\b               return 'ROBOT';
 variables\b           return 'VARIABLES';
@@ -23,6 +24,8 @@ proceso\b             return 'PROCESO';
 E\b                   return 'PARAMETRO_ENTRADA';
 ES\b                  return 'PARAMETRO_ENTRADA_SALIDA';
 [0-9]+                return 'NUMBER';
+"V"                   return 'V';
+"F"                   return 'F';
 [a-zA-Z_][a-zA-Z0-9_]* return 'ID';
 ":="                  return 'ASSIGN';
 ":"                   return 'COLON';
@@ -52,6 +55,7 @@ secciones
 
 seccion
     : 'AREAS' area_defs { $$ = { type: 'Areas', areas: $2 }; }
+    | 'PROCESOS' proceso_defs { $$ = {type: 'Procesos', procesos: $2}}
     | 'ROBOTS' robot_defs { $$ = { type: 'Robots', robots: $2 }; }
     | 'VARIABLES' var_defs { $$ = { type: 'Variables', variables: $2 }; }
     | 'COMENZAR' acciones 'FINPROGRAMA' EOF { $$ = { type: 'Comenzar', actions: $2 }; }
@@ -115,37 +119,40 @@ accion
       { $$ = { type: 'Iniciar', robot: $3, x: $5, y: $7 }; }
     | ID 'ASSIGN' matematica { $$ = { type: 'Asignar', variable: $1, value: $3 }; }
     | ID 'ASSIGN' algebra_booleana { $$ = { type: 'Asignar', variable: $1, value: $3 }; }
-    | firma { $$ = { type: 'Firma', name: $1, args: [] }; }
+    | llamado_funcion { $$ = $1; }
     ;
 
 condicion
-    : ID '==' 'NUMBER' { $$ = { type: 'Condicion', left: $1, operator: '==', right: $3 }; }
-    | ID '!=' 'NUMBER' { $$ = { type: 'Condicion', left: $1, operator: '!=', right: $3 }; }
-    | ID '<' 'NUMBER' { $$ = { type: 'Condicion', left: $1, operator: '<', right: $3 }; }
-    | ID '>' 'NUMBER' { $$ = { type: 'Condicion', left: $1, operator: '>', right: $3 }; }
-    | firma { $$ = { type: 'CondicionFirma', firma: $1 }; }
+    : condicion '==' condicion { $$ = { type: 'Comparacion', left: $1, operator: '==', right: $3 }; }
+    | condicion '!=' condicion { $$ = { type: 'Comparacion', left: $1, operator: '!=', right: $3 }; }
+    | condicion '<' condicion { $$ = { type: 'Comparacion', left: $1, operator: '<', right: $3 }; }
+    | condicion '>' condicion { $$ = { type: 'Comparacion', left: $1, operator: '>', right: $3 }; }
+    | llamado_funcion { $$ = $1; }
+    | ID { $$ = { type: 'Variable', name: $1 }; }
+    | 'NUMBER' { $$ = { type: 'Numero', value: $1 }; }
     ;
 
 matematica
-    : matematica '+' matematica { $$ = { type: 'Operacion', left: $1, operator: '+', right: $3 }; }
-    | matematica '-' matematica { $$ = { type: 'Operacion', left: $1, operator: '-', right: $3 }; }
-    | matematica '*' matematica { $$ = { type: 'Operacion', left: $1, operator: '*', right: $3 }; }
-    | matematica '/' matematica { $$ = { type: 'Operacion', left: $1, operator: '/', right: $3 }; }
+    : matematica '+' matematica { $$ = { type: 'OpMatematica', left: $1, operator: '+', right: $3 }; }
+    | matematica '-' matematica { $$ = { type: 'OpMatematica', left: $1, operator: '-', right: $3 }; }
+    | matematica '*' matematica { $$ = { type: 'OpMatematica', left: $1, operator: '*', right: $3 }; }
+    | matematica '/' matematica { $$ = { type: 'OpMatematica', left: $1, operator: '/', right: $3 }; }
     | ID { $$ = { type: 'Variable', name: $1 }; }
     | 'NUMBER' { $$ = { type: 'Numero', value: $1 }; }
     ;
 
 algebra_booleana
-    : algebra_booleana 'AND' algebra_booleana { $$ = { type: 'OperacionBooleana', left: $1, operator: 'AND', right: $3 }; }
-    | algebra_booleana 'OR' algebra_booleana { $$ = { type: 'OperacionBooleana', left: $1, operator: 'OR', right: $3 }; }
-    | 'NOT' algebra_booleana { $$ = { type: 'OperacionBooleana', operator: 'NOT', right: $2 }; }
-    | V { $$ = { type: 'Booleano', value: 'V' }; }
-    | F { $$ = { type: 'Booleano', value: 'F' }; }
+    : algebra_booleana '&' algebra_booleana { $$ = { type: 'OpBooleana', left: $1, operator: '&', right: $3 }; }
+    | algebra_booleana '|' algebra_booleana { $$ = { type: 'OpBooleana', left: $1, operator: '|', right: $3 }; }
+    | '~' algebra_booleana { $$ = { type: 'OpBooleana', operator: '~', right: $2 }; }
+    | llamado_funcion { $$ = $1; }
+    | V { $$ = { type: 'Booleano', value: true }; }
+    | F { $$ = { type: 'Booleano', value: false }; }
     ;
 
-firma
-    : ID 'LPAREN' 'RPAREN' { $$ = { type: 'Firma', name: $1, args: [] }; }
-    | ID 'LPAREN' argumentos 'RPAREN' { $$ = { type: 'Firma', name: $1, args: $3 }; }
+llamado_funcion
+    : ID 'LPAREN' 'RPAREN' { $$ = { type: 'LlamadoFuncion', name: $1, args: [] }; }
+    | ID 'LPAREN' argumentos 'RPAREN' { $$ = { type: 'LlamadoFuncion', name: $1, args: $3 }; }
     ;
 
 argumentos
@@ -155,10 +162,34 @@ argumentos
 
 argumento
     : NUMBER { $$ = { type: 'Numero', value: $1 }; }
-    | BOOLEAN { $$ = { type: 'Booleano', value: $1 }; }
+    | V { $$ = { type: 'Booleano', value: true }; }
+    | F { $$ = { type: 'Booleano', value: false }; }
     | ID { $$ = { type: 'Variable', name: $1 }; }
     ;
 
+tipo_parametro
+    : PARAMETRO_ENTRADA { $$ = "E" }
+    | PARAMETRO_ENTRADA_SALIDA { $$ = "ES" }
+    ;
+
+parametro
+    : tipo_parametro var_def { $$ = { type: 'Parametro', parType: $1, varDef: $2 } }
+    ;
+
+parametros
+    : parametro { $$ = [$1]; }
+    | parametros 'COMMA' parametro { $1.push($3); $$ = $1; }
+    ;
+
+proceso_def
+    : PROCESO ID 'LPAREN' 'RPAREN' 'COMENZAR' acciones 'FIN' { $$ = { type: 'Proceso', name: $2, args: [], actions: $6 } }
+    | PROCESO ID 'LPAREN' parametros 'RPAREN' 'COMENZAR' acciones 'FIN' { $$ = { type: 'Proceso', name: $2, args: $4, actions: $7 } }
+    ;
+
+proceso_defs
+    : proceso_def { $$ = [$1]; }
+    | proceso_defs proceso_def { $1.push($2); $$ = $1; }
+    ;
 %%
 
 /* Optional JavaScript section to include parser actions, etc. */
