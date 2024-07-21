@@ -1,116 +1,182 @@
-import { AreaNode, AreasNode, AsignarNode, AST, BooleanoNode, ComenzarNode, ComparacionNode, IniciarNode, LlamadoFuncionNode, MientrasNode, NumeroNode, OpBooleanaNode, OpMatematicaNode, ParametroNode, ProcesoNode, ProcesosNode, ProgramaNode, RepetirNode, RobotNode, RobotsNode, SimpleNode, SiNode, VariableNode, VariablesNode } from "../tree";
+import { Interface } from "readline";
+import { AreaNode, AreasNode, AsignarNode, AST, ComenzarNode, ComparacionNode, LlamadoFuncionNode, MientrasNode, OpBooleanaNode, OpMatematicaNode, ParametroNode, ProcesoNode, ProcesosNode, ProgramaNode, RepetirNode, RobotNode, RobotsNode, ValueNode, SiNode, VariableNode, VariablesNode } from "../tree";
+import City from "../city";
+import Robot from "../robot";
 
 interface ASTVisitor {
-    visitProgramaNode(node: ProgramaNode): void;
-    visitAreasNode(node: AreasNode): void;
-    visitProcesosNode(node: ProcesosNode): void;
-    visitRobotsNode(node: RobotsNode): void;
-    visitVariablesNode(node: VariablesNode): void;
-    visitComenzarNode(node: ComenzarNode): void;
-    visitAreaNode(node: AreaNode): void;
-    visitSimpleNode(node: SimpleNode): void;
-    visitRobotNode(node: RobotNode): void;
-    visitVariableNode(node: VariableNode): void;
-    visitRepetirNode(node: RepetirNode): void;
-    visitMientrasNode(node: MientrasNode): void;
-    visitIniciarNode(node: IniciarNode): void;
-    visitAsignarNode(node: AsignarNode): void;
-    visitSiNode(node: SiNode): void;
-    visitComparacionNode(node: ComparacionNode): void;
-    visitOpMatematicaNode(node: OpMatematicaNode): void;
-    visitOpBooleanaNode(node: OpBooleanaNode): void;
-    visitNumeroNode(node: NumeroNode): void;
-    visitBooleanoNode(node: BooleanoNode): void;
-    visitLlamadoFuncionNode(node: LlamadoFuncionNode): void;
-    visitParametroNode(node: ParametroNode): void;
-    visitProcesoNode(node: ProcesoNode): void;
+    visitProgramaNode(node: ProgramaNode, eContext: EvaluatorContext): any;
+    visitAreasNode(node: AreasNode, eContext: EvaluatorContext): any;
+    visitProcesosNode(node: ProcesosNode, eContext: EvaluatorContext): any;
+    visitRobotsNode(node: RobotsNode, eContext: EvaluatorContext): any;
+    visitVariablesNode(node: VariablesNode, eContext: EvaluatorContext): any;
+    visitComenzarNode(node: ComenzarNode, eContext: EvaluatorContext): any;
+    visitAreaNode(node: AreaNode, eContext: EvaluatorContext): any;
+    visitRobotNode(node: RobotNode, eContext: EvaluatorContext): any;
+    visitVariableNode(node: VariableNode, eContext: EvaluatorContext): any;
+    visitRepetirNode(node: RepetirNode, eContext: EvaluatorContext): any;
+    visitMientrasNode(node: MientrasNode, eContext: EvaluatorContext): any;
+    visitAsignarNode(node: AsignarNode, eContext: EvaluatorContext): any;
+    visitSiNode(node: SiNode, eContext: EvaluatorContext): any;
+    visitComparacionNode(node: ComparacionNode, eContext: EvaluatorContext): any;
+    visitOpMatematicaNode(node: OpMatematicaNode, eContext: EvaluatorContext): any;
+    visitOpBooleanaNode(node: OpBooleanaNode, eContext: EvaluatorContext): any;
+    visitLlamadoFuncionNode(node: LlamadoFuncionNode, eContext: EvaluatorContext): any;
+    visitParametroNode(node: ParametroNode, eContext: EvaluatorContext): any;
+    visitProcesoNode(node: ProcesoNode, eContext: EvaluatorContext): any;
+    visit(node: AST, eContext: EvaluatorContext): any;
+    visitValueNode(node: ValueNode, eContext: EvaluatorContext): any;
+}
+
+class Variable {
+    public name: string;
+    public type: string;
+    public value: number|boolean|null
+
+    constructor(name: string, type: string) {
+        this.name = name;
+        this.type = type;
+        this.value = null;
+    }
+}
+
+class EvaluatorContext {
+    private variables: Map<string, Variable>;
+    private functions: Map<string, ProcesoNode>;
+    private city: City|null;
+    private robots: Map<string, RobotNode>;
+
+    constructor() {
+        this.variables = new Map();
+        this.functions = new Map();
+        this.city = null;
+        this.robots = new Map()
+    }
+
+    addVariable(varNode: VariableNode) {
+        this.variables.set(varNode.name, new Variable(varNode.name,varNode.type));
+    }
+
+    setVariableValue(varName: string, valueNode: ValueNode) {
+        let variable = this.variables.get(varName);
+        if (variable?.type != valueNode.type) {
+            // Crear error para esto
+            throw Error("Problema de tipos en asignación")
+        }
+        variable.value = valueNode.value;
+    }
+
+    addFunction(funcNode: ProcesoNode) {
+        this.functions.set(funcNode.name, funcNode);
+    }
+
+    getFunction(funcName: string) {
+        return this.functions.get(funcName);
+    }
+
+    addCity(aCity: City) {
+        this.city = aCity
+    }
+
+    getCity() {
+        return this.city;
+    }
+
+    addRobot(robotNode: RobotNode) {
+        this.robots.set(robotNode.name, robotNode);
+    }
+
+    getRobot(robotName: string) {
+        return this.functions.get(robotName);
+    }
 }
 
 class ASTEvaluator implements ASTVisitor {
-    visitProgramaNode(node: ProgramaNode): any {
-        node.sections.forEach(section => this.visit(section));
-        //quizas tenga que ordenar las areas para recorrerla de forma especifica por los scopes
+    visitProgramaNode(node: ProgramaNode, eContext: EvaluatorContext): any {
+        // Crea la ciudad
+        eContext.addCity(new City(100,100,[],[]));
+
+        // Visita las secciones del programa
+        node.sections.forEach(section => this.visit(section as AST, eContext));
     }
 
-    visitAreasNode(node: AreasNode): any {
-        // Crear areas en ambiente global
-        node.areas.forEach(area => this.visit(area));
+    visitAreasNode(node: AreasNode, eContext: EvaluatorContext): any {
+        // Itera sobre nodos Area que crearan objetos Area
+        // Falta implementar objetos Area
+        node.areas.forEach(area => this.visit(area as AST, eContext));
     }
 
-    visitProcesosNode(node: ProcesosNode): any {
-        // Crear procesos en ambiente global
-        node.procesos.forEach(proceso => this.visit(proceso));
+    visitProcesosNode(node: ProcesosNode, eContext: EvaluatorContext): any {
+        // Agrega procesos a ejecutar en el contexto 
+        node.procesos.forEach(proceso => eContext.addFunction(proceso as ProcesoNode));
     }
 
-    visitRobotsNode(node: RobotsNode): any {
-        // Ejecutar codigo de robots
-        node.robots.forEach(robot => this.visit(robot));
+    visitRobotsNode(node: RobotsNode, eContext: EvaluatorContext): any {
+        // Agrega robots a ejecutar en el contexto
+        node.robots.forEach(robot => eContext.addRobot(robot as RobotNode));
     }
 
-    visitVariablesNode(node: VariablesNode): any {
-        // Crear variables en ambiente global
-        node.variables.forEach(variable => this.visit(variable));
+    visitVariablesNode(node: VariablesNode, eContext: EvaluatorContext): any {
+        // Crea variables en ambiente global
+        node.variables.forEach(variable => eContext.addVariable(variable as VariableNode));
     }
 
-    visitComenzarNode(node: ComenzarNode): any {
-        // Ejecutar codigo de programa
-        node.actions.forEach(action => this.visit(action));
+    visitComenzarNode(node: ComenzarNode, eContext: EvaluatorContext): any {
+        // Ejecutar codigo de programa, probablemente, llamado a funciones
+        node.actions.forEach(action => this.visit(action as AST, eContext));
+        // Luego deberia ejecutar codigo de robots
+        // contexto.robots.forEach(ejecutar)
     }
 
-    visitAreaNode(node: AreaNode): any {
+    visitAreaNode(node: AreaNode, eContext: EvaluatorContext): any {
         // Por ahora sin funcionalidad
+        // Implementar objeto Area
+        // eContext.agregarArea(nodoArea)
     }
 
-    visitSimpleNode(node: SimpleNode): any {
-        return node.value;
+    visitRobotNode(node: RobotNode, eContext: EvaluatorContext): any {
+        // Guarda robot en contexto para ejecutarlo luego del programa
+        eContext.addRobot(node);
     }
 
-    visitRobotNode(node: RobotNode): any {
-        // Crear variables DEL ROBOT ESPECIFICO
-        node.variables.forEach(variable => this.visit(variable));
-        // Ejecutar codigo DEL ROBOT ESPECIFICO
-        node.actions.forEach(action => this.visit(action));
+    visitVariableNode(node: VariableNode, eContext: EvaluatorContext): any {
+        // Agrega variable al contexto
+        eContext.addVariable(node);
     }
 
-    visitVariableNode(node: VariableNode): any {
-        // Por ahora sin funcionalidad
-    }
-
-    visitRepetirNode(node: RepetirNode): any {
+    visitRepetirNode(node: RepetirNode, eContext: EvaluatorContext): any {
         for (let i = 0; i < node.times; i++) {
-            node.actions.forEach(action => this.visit(action));
+            node.actions.forEach(action => this.visit(action as AST, eContext));
         }
     }
 
-    visitMientrasNode(node: MientrasNode): any {
-        while (this.visit(node.condition)) {
-            node.actions.forEach(action => this.visit(action));
+    visitMientrasNode(node: MientrasNode, eContext: EvaluatorContext): any {
+        let condicion = this.visit(node.condition as AST, eContext)
+        //Plantear error por si condicion no es booleana
+        while (condicion) {
+            node.actions.forEach(action => this.visit(action as AST, eContext));
         }
     }
 
-    visitIniciarNode(node: IniciarNode): any {
-        // Por ahora sin funcionalidad
+    visitAsignarNode(node: AsignarNode, eContext: EvaluatorContext): any {
+        // Guarda valor en variable del contexto
+        eContext.setVariableValue(node.variable, this.visit(node.value as AST, eContext));
     }
 
-    visitAsignarNode(node: AsignarNode): any {
-        // Asignar valores del contexto global
-        // Quizas tenga que diferenciar las asignaciones de robots y las de programa
-        // posibles soluciones?
-        // const value = this.visit(node.value);
-        // context[node.variable] = value; 
-    }
-
-    visitSiNode(node: SiNode): any {
-        if (this.visit(node.condition)) {
-            node.actions.forEach(action => this.visit(action));
+    visitSiNode(node: SiNode, eContext: EvaluatorContext): any {
+        let condicion = this.visit(node.condition as AST, eContext)
+        //Plantear error por si condicion no es booleana
+        if (condicion) {
+            node.actions.forEach(action => this.visit(action as AST, eContext));
         } else {
-            node.elseActions.forEach(action => this.visit(action));
+            node.elseActions.forEach(action => this.visit(action as AST, eContext));
         }
     }
 
-    visitComparacionNode(node: ComparacionNode): any {
-        const left = this.visit(node.left);
-        const right = this.visit(node.right);
+    visitComparacionNode(node: ComparacionNode, eContext: EvaluatorContext): any {
+        const left = this.visit(node.left as AST, eContext);
+        const right = this.visit(node.right as AST, eContext);
+
+        // Plantear error por si left o right no son numeros
 
         switch (node.operator) {
             case '=': return left === right;
@@ -123,9 +189,11 @@ class ASTEvaluator implements ASTVisitor {
         }
     }
 
-    visitOpMatematicaNode(node: OpMatematicaNode): any {
-        const left = this.visit(node.left);
-        const right = this.visit(node.right);
+    visitOpMatematicaNode(node: OpMatematicaNode, eContext: EvaluatorContext): any {
+        const left = this.visit(node.left as AST, eContext);
+        const right = this.visit(node.right as AST, eContext);
+
+        // Plantear error por si left o right no son numeros
 
         switch (node.operator) {
             case '+': return left + right;
@@ -136,12 +204,14 @@ class ASTEvaluator implements ASTVisitor {
         }
     }
 
-    visitOpBooleanaNode(node: OpBooleanaNode): any {
-        const right = this.visit(node.right);
+    visitOpBooleanaNode(node: OpBooleanaNode, eContext: EvaluatorContext): any {
+        const right = this.visit(node.right as AST, eContext);
         if (node.operator === '~') {
             return !right;
         }
-        const left = this.visit(node.left);
+        const left = this.visit(node.left as AST, eContext);
+
+        // Plantear error por si left o right no son bool
 
         switch (node.operator) {
             case '&': return left && right;
@@ -149,55 +219,48 @@ class ASTEvaluator implements ASTVisitor {
             default: throw new Error(`Unknown operator: ${node.operator}`);
         }
     }
-
-    visitNumeroNode(node: NumeroNode): any {
+    
+    visitValueNode(node: ValueNode, eContext: EvaluatorContext) {
+        // Analizar si retornar por aca o por contexto
         return node.value;
     }
 
-    visitBooleanoNode(node: BooleanoNode): any {
-        return node.value;
+    visitLlamadoFuncionNode(node: LlamadoFuncionNode, eContext: EvaluatorContext): any {
+        // Ejecutar (hacer otro recorrido) de funcion de contexto Global
+        // Probablemente hacer un visit con nuevo contexto, que contenga
+        // al contextoGlobal por si lo necesita y para diferenciar de local
+        // retornar el resultado de la visita
     }
 
-    visitLlamadoFuncionNode(node: LlamadoFuncionNode): any {
-        // Llamar a funciones del contexto global, definidas anteriormente
-        // posibles soluciones?
-        // const args = node.args.map(arg => this.visit(arg));
-        // return context[node.name](...args); 
+    visitParametroNode(node: ParametroNode, eContext: EvaluatorContext): any {
+        // Sin funcionalidad
     }
 
-    visitParametroNode(node: ParametroNode): any {
-        // Llamar a parametros para funcion
+    visitProcesoNode(node: ProcesoNode, eContext: EvaluatorContext): any {
+        eContext.addFunction(node);
     }
 
-    visitProcesoNode(node: ProcesoNode): any {
-        node.args.forEach(arg => this.visit(arg));
-        node.actions.forEach(action => this.visit(action));
-    }
-
-    visit(node: AST): any {
+    visit(node: AST, eContext: EvaluatorContext): any {
         switch (node.type) {
-            case 'Programa': return this.visitProgramaNode(node as ProgramaNode);
-            case 'Areas': return this.visitAreasNode(node as AreasNode);
-            case 'Procesos': return this.visitProcesosNode(node as ProcesosNode);
-            case 'Robots': return this.visitRobotsNode(node as RobotsNode);
-            case 'Variables': return this.visitVariablesNode(node as VariablesNode);
-            case 'Comenzar': return this.visitComenzarNode(node as ComenzarNode);
-            case 'Area': return this.visitAreaNode(node as AreaNode);
-            case 'Robot': return this.visitRobotNode(node as RobotNode);
-            case 'Variable': return this.visitVariableNode(node as VariableNode);
-            case 'Repetir': return this.visitRepetirNode(node as RepetirNode);
-            case 'Mientras': return this.visitMientrasNode(node as MientrasNode);
-            case 'Iniciar': return this.visitIniciarNode(node as IniciarNode);
-            case 'Asignar': return this.visitAsignarNode(node as AsignarNode);
-            case 'Si': return this.visitSiNode(node as SiNode);
-            case 'Comparacion': return this.visitComparacionNode(node as ComparacionNode);
-            case 'OpMatematica': return this.visitOpMatematicaNode(node as OpMatematicaNode);
-            case 'OpBooleana': return this.visitOpBooleanaNode(node as OpBooleanaNode);
-            case 'Numero': return this.visitNumeroNode(node as NumeroNode);
-            case 'Booleano': return this.visitBooleanoNode(node as BooleanoNode);
-            case 'LlamadoFuncion': return this.visitLlamadoFuncionNode(node as LlamadoFuncionNode);
-            case 'Parametro': return this.visitParametroNode(node as ParametroNode);
-            case 'Proceso': return this.visitProcesoNode(node as ProcesoNode);
+            case 'Programa': return this.visitProgramaNode(node as ProgramaNode, eContext);
+            case 'Areas': return this.visitAreasNode(node as AreasNode, eContext);
+            case 'Procesos': return this.visitProcesosNode(node as ProcesosNode, eContext);
+            case 'Robots': return this.visitRobotsNode(node as RobotsNode, eContext);
+            case 'Variables': return this.visitVariablesNode(node as VariablesNode, eContext);
+            case 'Comenzar': return this.visitComenzarNode(node as ComenzarNode, eContext);
+            case 'Area': return this.visitAreaNode(node as AreaNode, eContext);
+            case 'Robot': return this.visitRobotNode(node as RobotNode, eContext);
+            case 'Variable': return this.visitVariableNode(node as VariableNode, eContext);
+            case 'Repetir': return this.visitRepetirNode(node as RepetirNode, eContext);
+            case 'Mientras': return this.visitMientrasNode(node as MientrasNode, eContext);
+            case 'Asignar': return this.visitAsignarNode(node as AsignarNode, eContext);
+            case 'Si': return this.visitSiNode(node as SiNode, eContext);
+            case 'Comparacion': return this.visitComparacionNode(node as ComparacionNode, eContext);
+            case 'OpMatematica': return this.visitOpMatematicaNode(node as OpMatematicaNode, eContext);
+            case 'OpBooleana': return this.visitOpBooleanaNode(node as OpBooleanaNode, eContext);
+            case 'LlamadoFuncion': return this.visitLlamadoFuncionNode(node as LlamadoFuncionNode, eContext);
+            case 'Parametro': return this.visitParametroNode(node as ParametroNode, eContext);
+            case 'Proceso': return this.visitProcesoNode(node as ProcesoNode, eContext);
             default: throw new Error(`Unknown node type: ${node.type}`);
         }
     }

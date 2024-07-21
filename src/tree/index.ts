@@ -43,9 +43,9 @@ interface AreaNode extends ASTNode {
     y2: number;
 }
 
-interface SimpleNode extends ASTNode {
+interface ValueNode extends ASTNode {
     type: string;
-    value: string;
+    value: number|boolean|null;
 }
 
 interface RobotNode extends ASTNode {
@@ -71,13 +71,6 @@ interface MientrasNode extends ASTNode {
     type: 'Mientras';
     condition: ASTNode;
     actions: ASTNode[];
-}
-
-interface IniciarNode extends ASTNode {
-    type: 'Iniciar';
-    robot: string;
-    x: number;
-    y: number;
 }
 
 interface AsignarNode extends ASTNode {
@@ -114,16 +107,6 @@ interface OpBooleanaNode extends ASTNode {
     right: ASTNode;
 }
 
-interface NumeroNode extends ASTNode {
-    type: 'Numero';
-    value: number;
-}
-
-interface BooleanoNode extends ASTNode {
-    type: 'Booleano';
-    value: boolean;
-}
-
 interface LlamadoFuncionNode extends ASTNode {
     type: 'LlamadoFuncion';
     name: string;
@@ -151,19 +134,16 @@ type AST =
     | VariablesNode
     | ComenzarNode
     | AreaNode
-    | SimpleNode
+    | ValueNode
     | RobotNode
     | VariableNode
     | RepetirNode
     | MientrasNode
-    | IniciarNode
     | AsignarNode
     | SiNode
     | ComparacionNode
     | OpMatematicaNode
     | OpBooleanaNode
-    | NumeroNode
-    | BooleanoNode
     | LlamadoFuncionNode
     | ParametroNode
     | ProcesoNode;
@@ -177,19 +157,16 @@ export type {
     VariablesNode,
     ComenzarNode,
     AreaNode,
-    SimpleNode,
+    ValueNode,
     RobotNode,
     VariableNode,
     RepetirNode,
     MientrasNode,
-    IniciarNode,
     AsignarNode,
     SiNode,
     ComparacionNode,
     OpMatematicaNode,
     OpBooleanaNode,
-    NumeroNode,
-    BooleanoNode,
     LlamadoFuncionNode,
     ParametroNode,
     ProcesoNode
