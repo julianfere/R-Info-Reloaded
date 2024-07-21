@@ -3,6 +3,11 @@ interface Position {
   street: number;
 }
 
+interface RobotPosition extends Position {
+  prevStreet: number;
+  prevAvenue: number;
+}
+
 interface IPositionable {
   position: Position;
 }
@@ -11,7 +16,7 @@ interface Flower extends IPositionable {}
 
 interface Paper extends IPositionable {}
 
-type Directions = "N" | "E" | "S" | "W";
+type Directions = 'N' | 'E' | 'S' | 'W';
 
 interface ICity {
   removeFlower: (position: Position) => void;
@@ -23,6 +28,8 @@ interface ICity {
   outOfBounds: (position: Position) => boolean;
   checkFlower: (aPosition: Position) => boolean;
   checkPaper: (aPosition: Position) => boolean;
+  updateRobotPosition: (robot: IRobot, position: Position) => void;
+  drawRobot: (robot: IRobot) => void;
 }
 
 interface Backpack {
@@ -41,11 +48,12 @@ interface IRobot {
   depositPaper: () => void;
   thereIsFlowerInBackpack: () => boolean;
   thereIsPaperInBackpack: () => boolean;
-  getPosition: () => Position;
+  getPosition: () => RobotPosition;
   getDirection: () => Directions;
   getAvenuePosition: () => number;
   getStreetPosition: () => number;
-  setPosition: (aPosition: Position) => void;
+  setPosition: (aPosition: RobotPosition) => void;
+  getColor: () => string;
 }
 
 export type {
@@ -57,4 +65,5 @@ export type {
   Directions,
   IRobot,
   Paper,
+  RobotPosition
 };
