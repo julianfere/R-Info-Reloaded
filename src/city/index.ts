@@ -58,6 +58,22 @@ class City implements ICity {
       position.street >= this.streets
     );
   }
+
+  checkFlower(aPosition: Position) {
+    return this.flowers.some(
+      (flower) =>
+        flower.position.avenue === aPosition.avenue &&
+        flower.position.street === aPosition.street
+    );
+  }
+
+  checkPaper(aPosition: Position) {
+    return this.flowers.some(
+      (paper) =>
+        paper.position.avenue === aPosition.avenue &&
+        paper.position.street === aPosition.street
+    );
+  }
 }
 
 export default City;

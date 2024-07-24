@@ -21,6 +21,8 @@ interface ICity {
   getFlowers: () => Flower[];
   getPapers: () => Paper[];
   outOfBounds: (position: Position) => boolean;
+  checkFlower: (aPosition: Position) => boolean;
+  checkPaper: (aPosition: Position) => boolean;
 }
 
 interface Backpack {
@@ -41,6 +43,9 @@ interface IRobot {
   thereIsPaperInBackpack: () => boolean;
   getPosition: () => Position;
   getDirection: () => Directions;
+  getAvenuePosition: () => number;
+  getStreetPosition: () => number;
+  setPosition: (aPosition: Position) => void;
 }
 
 export type {

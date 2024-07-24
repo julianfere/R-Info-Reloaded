@@ -60,23 +60,11 @@ class Robot implements IRobot {
   }
 
   checkFlower() {
-    return this.city
-      .getFlowers()
-      .some(
-        (flower) =>
-          flower.position.avenue === this.position.avenue &&
-          flower.position.street === this.position.street
-      );
+    return this.city.checkFlower(this.position);
   }
 
   checkPaper() {
-    return this.city
-      .getPapers()
-      .some(
-        (paper) =>
-          paper.position.avenue === this.position.avenue &&
-          paper.position.street === this.position.street
-      );
+    return this.city.checkPaper(this.position);
   }
 
   takeFlower() {
@@ -129,6 +117,18 @@ class Robot implements IRobot {
 
   getDirection() {
     return this.direction;
+  }
+
+  getAvenuePosition() {
+    return this.position.avenue;
+  }
+
+  getStreetPosition() {
+    return this.position.street;
+  }
+
+  setPosition(aPosition: Position) {
+    this.position = aPosition;
   }
 }
 

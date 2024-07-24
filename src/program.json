@@ -1,0 +1,287 @@
+{
+  "type": "Programa",
+  "name": "RecolectorDeFlores",
+  "sections": [
+    {
+      "type": "Procesos",
+      "procesos": [
+        {
+          "type": "Proceso",
+          "name": "cuadrado1",
+          "args": [],
+          "actions": [
+            {
+              "type": "Repetir",
+              "times": "4",
+              "actions": [
+                {
+                  "type": "LlamadoFuncion",
+                  "name": "mover",
+                  "args": []
+                },
+                {
+                  "type": "LlamadoFuncion",
+                  "name": "derecha",
+                  "args": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Proceso",
+          "name": "cuadrado2",
+          "args": [
+            {
+              "type": "Parametro",
+              "parType": "E",
+              "varDef": {
+                "type": "Variable",
+                "name": "hola",
+                "varType": "numero"
+              }
+            },
+            {
+              "type": "Parametro",
+              "parType": "ES",
+              "varDef": {
+                "type": "Variable",
+                "name": "goodbye",
+                "varType": "boolean"
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Repetir",
+              "times": "4",
+              "actions": [
+                {
+                  "type": "LlamadoFuncion",
+                  "name": "mover",
+                  "args": []
+                },
+                {
+                  "type": "LlamadoFuncion",
+                  "name": "derecha",
+                  "args": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Areas",
+      "areas": [
+        {
+          "type": "Area",
+          "name": "jardin",
+          "areaType": "AREAC",
+          "x1": "1",
+          "y1": "1",
+          "x2": "10",
+          "y2": "10"
+        }
+      ]
+    },
+    {
+      "type": "Robots",
+      "robots": [
+        {
+          "type": "Robot",
+          "name": "recolector",
+          "variables": [
+            {
+              "type": "Variable",
+              "name": "flores",
+              "varType": "numero"
+            }
+          ],
+          "actions": [
+            {
+              "type": "Asignar",
+              "variable": "flores",
+              "value": {
+                "type": "Numero",
+                "value": "0"
+              }
+            },
+            {
+              "type": "Repetir",
+              "times": "10",
+              "actions": [
+                {
+                  "type": "Repetir",
+                  "times": "9",
+                  "actions": [
+                    {
+                      "type": "Si",
+                      "condition": {
+                        "type": "LlamadoFuncion",
+                        "name": "HayFlorEnLaEsquina",
+                        "args": []
+                      },
+                      "actions": [
+                        {
+                          "type": "LlamadoFuncion",
+                          "name": "exisde",
+                          "args": [
+                            {
+                              "type": "Booleano",
+                              "value": true
+                            },
+                            {
+                              "type": "Numero",
+                              "value": "2"
+                            },
+                            {
+                              "type": "Variable",
+                              "name": "hola"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "LlamadoFuncion",
+                          "name": "tomarFlor",
+                          "args": []
+                        },
+                        {
+                          "type": "Asignar",
+                          "variable": "flores",
+                          "value": {
+                            "type": "OpMatematica",
+                            "left": {
+                              "type": "Variable",
+                              "name": "flores"
+                            },
+                            "operator": "+",
+                            "right": {
+                              "type": "Numero",
+                              "value": "1"
+                            }
+                          }
+                        },
+                        {
+                          "type": "LlamadoFuncion",
+                          "name": "mover",
+                          "args": []
+                        },
+                        {
+                          "type": "LlamadoFuncion",
+                          "name": "derecha",
+                          "args": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Si",
+                  "condition": {
+                    "type": "LlamadoFuncion",
+                    "name": "HayFlorEnLaEsquina",
+                    "args": []
+                  },
+                  "actions": [
+                    {
+                      "type": "LlamadoFuncion",
+                      "name": "tomarFlor",
+                      "args": []
+                    },
+                    {
+                      "type": "Asignar",
+                      "variable": "flores",
+                      "value": {
+                        "type": "OpMatematica",
+                        "left": {
+                          "type": "Variable",
+                          "name": "flores"
+                        },
+                        "operator": "+",
+                        "right": {
+                          "type": "Numero",
+                          "value": "1"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Repetir",
+              "times": "10",
+              "actions": [
+                {
+                  "type": "Repetir",
+                  "times": "10",
+                  "actions": [
+                    {
+                      "type": "LlamadoFuncion",
+                      "name": "mover",
+                      "args": []
+                    }
+                  ]
+                },
+                {
+                  "type": "LlamadoFuncion",
+                  "name": "derecha",
+                  "args": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Variables",
+      "variables": [
+        {
+          "type": "Variable",
+          "name": "bot",
+          "varType": "id"
+        }
+      ]
+    },
+    {
+      "type": "Comenzar",
+      "actions": [
+        {
+          "type": "LlamadoFuncion",
+          "name": "AsignarArea",
+          "args": [
+            {
+              "type": "Variable",
+              "name": "bot"
+            },
+            {
+              "type": "Variable",
+              "name": "jardin"
+            }
+          ]
+        },
+        {
+          "type": "LlamadoFuncion",
+          "name": "Iniciar",
+          "args": [
+            {
+              "type": "Variable",
+              "name": "bot"
+            },
+            {
+              "type": "Numero",
+              "value": "1"
+            },
+            {
+              "type": "Numero",
+              "value": "1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

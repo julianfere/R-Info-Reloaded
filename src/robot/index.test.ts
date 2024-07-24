@@ -11,6 +11,8 @@ describe("Robot", () => {
     getFlowers: vi.fn(),
     getPapers: vi.fn(),
     outOfBounds: vi.fn(),
+    checkFlower: vi.fn(),
+    checkPaper: vi.fn()
   };
 
   it("should move", () => {
