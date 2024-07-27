@@ -6,6 +6,9 @@ import { editor } from 'monaco-editor';
 import { RinfoParser } from '@/src/ParserAndLexer';
 import City from '@/src/city';
 import RinfoEditor from '@/components/Editor';
+import Canvas from '@/components/Canvas';
+import useHandleSave from '@/hooks/useHandleSave';
+import Robot from '@/src/robot';
 
 export const Client = () => {
   const monaco = useMonaco();
@@ -13,13 +16,29 @@ export const Client = () => {
   const outputRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const cityRef = useRef<City>();
+  const robotRef = useRef<Robot>();
 
   useEffect(() => {
     cityRef.current = new City(100, canvasRef.current!);
     cityRef.current.drawCity();
+    robotRef.current = new Robot('robot-1', cityRef.current, 'red', {
+      avenue: 0,
+      street: 0,
+      prevAvenue: 1,
+      prevStreet: 1
+    });
   }, []);
 
   const handleRun = () => {
+    if (robotRef.current) {
+      robotRef.current.turnRight();
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          robotRef.current?.move();
+        }, i * 1000);
+      }
+    }
+
     const value = ref.current?.getValue();
     if (!value) {
       return;
@@ -49,6 +68,8 @@ export const Client = () => {
     }
   };
 
+  useHandleSave(handleRun);
+
   return (
     <Grid
       columns={{ initial: '1', md: '2' }}
@@ -65,7 +86,7 @@ export const Client = () => {
       </Box>
       <Box height="full">
         <Card className="overflow-clip ">
-          <canvas id="canvas" width="950" height="800" ref={canvasRef} />
+          <Canvas ref={canvasRef} />
         </Card>
       </Box>
     </Grid>
