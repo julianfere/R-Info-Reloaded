@@ -10,7 +10,7 @@ const yy = {
   vars: []
 };
 
-const city = new City(100, 100);
+const city = new City(100);
 
 const handler = {
   robotDef: (robotName: string, caca: any) => {},

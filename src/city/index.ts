@@ -14,15 +14,15 @@ class City implements ICity {
 
   constructor(
     gridSize: number,
-    canvas: HTMLCanvasElement,
+    canvas?: HTMLCanvasElement,
     flowers?: Flower[],
     papers?: Paper[]
   ) {
     this.gridSize = gridSize;
     this.flowers = flowers || [];
     this.papers = papers || [];
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d')!;
+    this.canvas = canvas || document.createElement('canvas');
+    this.ctx = this.canvas.getContext('2d')!;
   }
 
   removeFlower(position: Position) {
