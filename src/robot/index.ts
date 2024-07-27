@@ -16,12 +16,22 @@ class Robot implements IRobot {
   private direction: Directions;
   private readonly color: string;
 
-  constructor(id: string, city: ICity, color?: string) {
+  constructor(
+    id: string,
+    city: ICity,
+    color?: string,
+    position?: RobotPosition
+  ) {
     this.id = id;
     this.direction = 'N';
     this.city = city;
     this.backpack = { flower: 0, paper: 0 };
-    this.position = { avenue: 0, street: 0, prevAvenue: 0, prevStreet: 0 };
+    this.position = position || {
+      avenue: 1,
+      street: 1,
+      prevAvenue: 1,
+      prevStreet: 1
+    };
     this.color = color || 'red';
     this.city.drawRobot(this);
   }
@@ -43,7 +53,7 @@ class Robot implements IRobot {
         this.position.avenue--;
         break;
     }
-
+    this.city.updateRobotPosition(this, this.position);
     if (this.city.outOfBounds(this.position)) throw new FellOffTheCityError();
   }
 
@@ -134,6 +144,7 @@ class Robot implements IRobot {
 
   setPosition(aPosition: RobotPosition) {
     this.position = aPosition;
+    this.city.updateRobotPosition(this, this.position);
   }
 
   getColor() {
