@@ -1,4 +1,11 @@
-import { Flower, ICity, IRobot, Paper, Position } from '../entities';
+import {
+  Flower,
+  ICity,
+  IRobot,
+  Paper,
+  Position,
+  RobotPosition
+} from '../entities';
 
 class City implements ICity {
   private gridSize: number;
@@ -105,23 +112,19 @@ class City implements ICity {
   }
 
   eraseRobot(robot: IRobot) {
-    const position = robot.getPosition();
+    const position = this.calculatePosition(robot.getPosition());
 
     this.ctx.save();
     this.ctx.beginPath();
     this.ctx.arc(position.prevAvenue, position.prevStreet, 6, 0, 2 * Math.PI);
     this.ctx.clip();
-    this.ctx.clearRect(
-      position.prevAvenue - 6,
-      position.prevStreet - 6,
-      12,
-      12
-    );
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillRect(position.prevAvenue - 6, position.prevStreet - 6, 12, 12);
     this.ctx.restore();
   }
 
   drawTrace(robot: IRobot) {
-    const position = robot.getPosition();
+    const position = this.calculatePosition(robot.getPosition());
     const color = robot.getColor();
     this.ctx.beginPath();
     this.ctx.moveTo(position.prevAvenue, position.prevStreet);
@@ -132,9 +135,9 @@ class City implements ICity {
   }
 
   drawRobot(robot: IRobot) {
-    const position = robot.getPosition();
+    const position = this.calculatePosition(robot.getPosition());
     this.ctx.beginPath();
-    this.ctx.arc(position.prevAvenue, position.prevStreet, 5, 0, 2 * Math.PI);
+    this.ctx.arc(position.avenue, position.street, 5, 0, 2 * Math.PI);
     this.ctx.fillStyle = robot.getColor();
     this.ctx.fill();
   }
@@ -143,6 +146,16 @@ class City implements ICity {
     this.eraseRobot(robot);
     this.drawTrace(robot);
     this.drawRobot(robot);
+  }
+
+  private calculatePosition(position: RobotPosition): RobotPosition {
+    return {
+      avenue: position.avenue * this.totalBlockSize + this.streetThickness / 2, //Half of the street thickness is added to center the robot
+      street: position.street * this.totalBlockSize + 796, //FIXME: 796 is a magic number, it should be calculated based on the canvas height
+      prevAvenue:
+        position.prevAvenue * this.totalBlockSize + this.streetThickness / 2,
+      prevStreet: position.prevStreet * this.totalBlockSize + 796
+    };
   }
 }
 
