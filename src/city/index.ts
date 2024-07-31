@@ -1,21 +1,35 @@
-import { Flower, ICity, Paper, Position } from "../entities";
+import {
+  Flower,
+  ICity,
+  IRobot,
+  Paper,
+  Position,
+  RobotPosition
+} from '../entities';
 
 class City implements ICity {
-  private avenues: number;
-  private streets: number;
+  private gridSize: number;
   private flowers: Flower[];
   private papers: Paper[];
+  private canvas: HTMLCanvasElement;
+  private readonly blockSize = 10;
+  private readonly streetThickness = 8;
+  private readonly totalBlockSize = this.blockSize + this.streetThickness;
+  private readonly streetColor = 'white';
+  private readonly blockColor = 'gray';
+  private readonly ctx: CanvasRenderingContext2D;
 
   constructor(
-    avenues: number,
-    streets: number,
+    gridSize: number,
+    canvas?: HTMLCanvasElement,
     flowers?: Flower[],
     papers?: Paper[]
   ) {
-    this.avenues = avenues;
-    this.streets = streets;
+    this.gridSize = gridSize;
     this.flowers = flowers || [];
     this.papers = papers || [];
+    this.canvas = canvas || document.createElement('canvas');
+    this.ctx = this.canvas.getContext('2d')!;
   }
 
   removeFlower(position: Position) {
@@ -53,9 +67,9 @@ class City implements ICity {
   outOfBounds(position: Position) {
     return (
       position.avenue < 0 ||
-      position.avenue >= this.avenues ||
+      position.avenue >= this.gridSize ||
       position.street < 0 ||
-      position.street >= this.streets
+      position.street >= this.gridSize
     );
   }
 
@@ -73,6 +87,75 @@ class City implements ICity {
         paper.position.avenue === aPosition.avenue &&
         paper.position.street === aPosition.street
     );
+  }
+
+  drawCity() {
+    for (let row = 0; row < this.gridSize; row++) {
+      for (let col = 0; col < this.gridSize; col++) {
+        const x = col * this.totalBlockSize;
+        const y = row * this.totalBlockSize;
+
+        this.ctx.fillStyle = this.streetColor;
+        this.ctx.fillRect(0, y, this.canvas.width, this.streetThickness);
+
+        this.ctx.fillRect(x, 0, this.streetThickness, this.canvas.height);
+
+        this.ctx.fillStyle = this.blockColor;
+        this.ctx.fillRect(
+          x + this.streetThickness,
+          y + this.streetThickness,
+          this.blockSize,
+          this.blockSize
+        );
+      }
+    }
+  }
+
+  eraseRobot(robot: IRobot) {
+    const position = this.calculatePosition(robot.getPosition());
+
+    this.ctx.save();
+    this.ctx.beginPath();
+    this.ctx.arc(position.prevAvenue, position.prevStreet, 6, 0, 2 * Math.PI);
+    this.ctx.clip();
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillRect(position.prevAvenue - 6, position.prevStreet - 6, 12, 12);
+    this.ctx.restore();
+  }
+
+  drawTrace(robot: IRobot) {
+    const position = this.calculatePosition(robot.getPosition());
+    const color = robot.getColor();
+    this.ctx.beginPath();
+    this.ctx.moveTo(position.prevAvenue, position.prevStreet);
+    this.ctx.lineTo(position.avenue, position.street);
+    this.ctx.strokeStyle = color;
+    this.ctx.lineWidth = 2;
+    this.ctx.stroke();
+  }
+
+  drawRobot(robot: IRobot) {
+    const position = this.calculatePosition(robot.getPosition());
+    this.ctx.beginPath();
+    this.ctx.arc(position.avenue, position.street, 5, 0, 2 * Math.PI);
+    this.ctx.fillStyle = robot.getColor();
+    this.ctx.fill();
+  }
+
+  updateRobotPosition(robot: IRobot) {
+    this.eraseRobot(robot);
+    this.drawTrace(robot);
+    this.drawRobot(robot);
+  }
+
+  private calculatePosition(position: RobotPosition): RobotPosition {
+    return {
+      avenue: position.avenue * this.totalBlockSize + this.streetThickness / 2, //Half of the street thickness is added to center the robot
+      street: position.street * this.totalBlockSize + 796, //FIXME: 796 is a magic number, it should be calculated based on the canvas height
+      prevAvenue:
+        position.prevAvenue * this.totalBlockSize + this.streetThickness / 2,
+      prevStreet: position.prevStreet * this.totalBlockSize + 796
+    };
   }
 }
 

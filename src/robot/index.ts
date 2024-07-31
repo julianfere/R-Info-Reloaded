@@ -1,60 +1,75 @@
-import { Backpack, ICity, Directions, Position } from "../entities";
-import { IRobot } from "../entities";
+import { Backpack, ICity, Directions, RobotPosition } from '../entities';
+import { IRobot } from '../entities';
 import {
   FellOffTheCityError,
   NoFlowerInBackpackError,
   NoFlowerInCornerError,
   NoPaperInBackpackError,
-  NoPaperInCornerError,
-} from "./errors";
+  NoPaperInCornerError
+} from './errors';
 
 class Robot implements IRobot {
   public id: string;
   private backpack: Backpack;
   private city: ICity;
-  private position: Position;
+  private position: RobotPosition;
   private direction: Directions;
+  private readonly color: string;
 
-  constructor(id: string, city: ICity) {
+  constructor(
+    id: string,
+    city: ICity,
+    color?: string,
+    position?: RobotPosition
+  ) {
     this.id = id;
-    this.direction = "N";
+    this.direction = 'N';
     this.city = city;
     this.backpack = { flower: 0, paper: 0 };
-    this.position = { avenue: 0, street: 0 };
+    this.position = position || {
+      avenue: 1,
+      street: 1,
+      prevAvenue: 1,
+      prevStreet: 1
+    };
+    this.color = color || 'red';
+    this.city.drawRobot(this);
   }
 
   move() {
+    this.position.prevAvenue = this.position.avenue;
+    this.position.prevStreet = this.position.street;
     switch (this.direction) {
-      case "N":
+      case 'N':
         this.position.street++;
         break;
-      case "E":
+      case 'E':
         this.position.avenue++;
         break;
-      case "S":
+      case 'S':
         this.position.street--;
         break;
-      case "W":
+      case 'W':
         this.position.avenue--;
         break;
     }
-
+    this.city.updateRobotPosition(this, this.position);
     if (this.city.outOfBounds(this.position)) throw new FellOffTheCityError();
   }
 
   turnRight() {
     switch (this.direction) {
-      case "N":
-        this.direction = "E";
+      case 'N':
+        this.direction = 'E';
         break;
-      case "E":
-        this.direction = "S";
+      case 'E':
+        this.direction = 'S';
         break;
-      case "S":
-        this.direction = "W";
+      case 'S':
+        this.direction = 'W';
         break;
-      case "W":
-        this.direction = "N";
+      case 'W':
+        this.direction = 'N';
         break;
     }
   }
@@ -127,8 +142,13 @@ class Robot implements IRobot {
     return this.position.street;
   }
 
-  setPosition(aPosition: Position) {
+  setPosition(aPosition: RobotPosition) {
     this.position = aPosition;
+    this.city.updateRobotPosition(this, this.position);
+  }
+
+  getColor() {
+    return this.color;
   }
 }
 
