@@ -126,6 +126,7 @@ class City implements ICity {
   drawTrace(robot: IRobot) {
     const position = this.calculatePosition(robot.getPosition());
     const color = robot.getColor();
+
     this.ctx.beginPath();
     this.ctx.moveTo(position.prevAvenue, position.prevStreet);
     this.ctx.lineTo(position.avenue, position.street);
@@ -151,10 +152,10 @@ class City implements ICity {
   private calculatePosition(position: RobotPosition): RobotPosition {
     return {
       avenue: position.avenue * this.totalBlockSize + this.streetThickness / 2, //Half of the street thickness is added to center the robot
-      street: position.street * this.totalBlockSize + 796, //FIXME: 796 is a magic number, it should be calculated based on the canvas height
+      street: position.street * this.totalBlockSize + this.canvas.height,
       prevAvenue:
         position.prevAvenue * this.totalBlockSize + this.streetThickness / 2,
-      prevStreet: position.prevStreet * this.totalBlockSize + 796
+      prevStreet: position.prevStreet * this.totalBlockSize + this.canvas.height
     };
   }
 }
